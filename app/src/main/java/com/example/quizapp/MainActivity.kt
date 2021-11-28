@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
                 auth.signInWithEmailAndPassword(e, p).addOnCompleteListener {
                     task ->
                         if (task.isSuccessful) {
+                            Toast.makeText(this, "Autenticacion correcta", Toast.LENGTH_SHORT).show()
                             val intent = Intent(this, MainActivity::class.java)
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                             startActivity(intent)
