@@ -31,8 +31,8 @@ class MainActivity : AppCompatActivity() {
             if (!TextUtils.isEmpty(e) && !TextUtils.isEmpty(p)) {
                 auth.signInWithEmailAndPassword(e, p).addOnCompleteListener {
                     task ->
-                        if (task.isSuccessful) {
-                            Toast.makeText(this, "Autenticacion correcta", Toast.LENGTH_SHORT).show()
+                                if (task.isSuccessful) {
+                                    Toast.makeText(this, "Autenticacion correcta", Toast.LENGTH_SHORT).show()
                             val intent = Intent(this, MainActivity::class.java)
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                             startActivity(intent)
@@ -40,6 +40,24 @@ class MainActivity : AppCompatActivity() {
                             Toast.makeText(this, "Autenticacion fallida", Toast.LENGTH_SHORT).show()
                         }
                 }
+            }
+        }
+
+        findViewById<Button>(R.id.registrar).setOnClickListener {
+            val e = email?.text.toString()
+            val p = password?.text.toString()
+
+            val auth = FirebaseAuth.getInstance()
+
+            if (!TextUtils.isEmpty(e) && !TextUtils.isEmpty(p)) {
+                auth.createUserWithEmailAndPassword(e, p)
+                    .addOnCompleteListener(this) { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(this, "Usuario creado", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(baseContext, "Creacion fallida.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
             }
         }
     }
