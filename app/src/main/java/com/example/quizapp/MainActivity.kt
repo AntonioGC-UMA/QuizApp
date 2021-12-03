@@ -8,11 +8,16 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import java.lang.ref.PhantomReference
 
 class MainActivity : AppCompatActivity() {
 
 
-
+private lateinit var databaseReference: DatabaseReference
     var emailText : EditText? = null
     var passwordText : EditText? = null
 
@@ -35,12 +40,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users")
         emailText = findViewById<EditText>(R.id.email)
         passwordText = findViewById<EditText>(R.id.password)
 
+        val auth = FirebaseAuth.getInstance()
+        val bd = Firebase.firestore
+
+        SingletonMap.put("BD_AUTH", auth)
+        SingletonMap.put("BD", bd)
+
         findViewById<Button>(R.id.login).setOnClickListener {
-            val auth = FirebaseAuth.getInstance()
             val data = readData()
             data?.let {
                 val (email, password) = data
@@ -56,7 +66,7 @@ class MainActivity : AppCompatActivity() {
                             Toast.makeText(
                                 this,
                                 "Autenticacion fallida: ${task.exception?.message}",
-                                Toast.LENGTH_SHORT
+                                Toast.LENGTH_LONG
                             ).show()
                         }
                     }
@@ -65,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.registrar).setOnClickListener {
-            val auth = FirebaseAuth.getInstance()
+
 
             val data = readData()
 
@@ -77,11 +87,13 @@ class MainActivity : AppCompatActivity() {
                         .addOnCompleteListener(this) { task ->
                             if (task.isSuccessful) {
                                 Toast.makeText(this, "Usuario creado con éxito", Toast.LENGTH_SHORT).show()
+                                //TO DO: Crear la entidad usuario y guardar la info
+                                //databaseReference.child(auth.currentUser?.uid.toString()).setValue()
                                 val intent = Intent(this, Home::class.java)
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                                 startActivity(intent)
                             } else {
-                                Toast.makeText(baseContext, "Creación fallida: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(baseContext, "Creación fallida: ${task.exception?.message}", Toast.LENGTH_LONG).show()
                             }
                         }
                 }

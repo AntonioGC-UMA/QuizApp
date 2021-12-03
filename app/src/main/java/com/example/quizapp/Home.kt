@@ -13,6 +13,8 @@ class Home : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        var auth = SingletonMap.get("BD_AUTH") as FirebaseAuth
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
