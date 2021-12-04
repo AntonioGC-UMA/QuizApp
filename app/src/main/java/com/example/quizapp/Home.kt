@@ -1,7 +1,7 @@
 package com.example.quizapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -13,7 +13,7 @@ class Home : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        var auth = SingletonMap.get("BD_AUTH") as FirebaseAuth
+        var auth = SingletonMap["BD_AUTH"] as FirebaseAuth
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
