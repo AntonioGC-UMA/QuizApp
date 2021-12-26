@@ -1,10 +1,12 @@
 package com.example.quizapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,7 +36,13 @@ class MyTestsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_tests, container, false)
+        val view = inflater.inflate(R.layout.fragment_my_tests, container, false)
+        val buttonCreateTest = view.findViewById<FloatingActionButton>(R.id.createTestButton)
+        buttonCreateTest.setOnClickListener {
+            val intent = Intent(activity, CrearTest::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent) }
+        return view
     }
 
     companion object {

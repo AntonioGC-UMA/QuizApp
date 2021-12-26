@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 
 // TODO: Rename parameter arguments, choose names that match
@@ -31,6 +33,8 @@ class DoneTestsFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+
     }
 
     override fun onCreateView(
@@ -39,6 +43,10 @@ class DoneTestsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_done_tests, container, false)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewMyTests)
+        val adapter = CustomMyTestsAdapter()
+        recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView.adapter = adapter
         //textTestsDone = view.findViewById<TextView>(R.id.sampleTestsDone)
         //textTestsDone?.text = user?.email.toString()
         return view

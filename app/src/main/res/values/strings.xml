@@ -6,4 +6,6 @@
     <string name="sample_tests_done">Tests you have done</string>
     <string name="login_user_email">Introduce an email</string>
     <string name="login_user_password">Introduce a password (min 6 characters)</string>
+    <string name="test_description">Descripcion</string>
+    <string name="test_name">test de prueba</string>
 </resources>
