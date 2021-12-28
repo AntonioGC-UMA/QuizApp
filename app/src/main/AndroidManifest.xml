@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuizApp">
         <activity
+            android:name=".CrearPreguntaSeleccion"
+            android:exported="false" />
+        <activity
             android:name=".SeleccionarTipoDePregunta"
             android:exported="false" />
         <activity

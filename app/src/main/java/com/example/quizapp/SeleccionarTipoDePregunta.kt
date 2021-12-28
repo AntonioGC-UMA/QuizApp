@@ -1,5 +1,6 @@
 package com.example.quizapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -11,10 +12,10 @@ class SeleccionarTipoDePregunta : AppCompatActivity() {
 
         findViewById<Button>(R.id.seleccion).setOnClickListener { view ->
             println("Seleccion")
-            /*
-            val intent = Intent(this, SeleccionarTipoDePregunta::class.java)
+
+            val intent = Intent(this, CrearPreguntaSeleccion::class.java)
             startActivity(intent)
-             */
+
             this.finish()
         }
         findViewById<Button>(R.id.multipleRespuesta).setOnClickListener { view ->
