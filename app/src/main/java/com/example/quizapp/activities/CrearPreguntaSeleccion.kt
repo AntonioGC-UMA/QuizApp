@@ -1,9 +1,11 @@
-package com.example.quizapp
+package com.example.quizapp.activities
 
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
+import com.example.quizapp.R
+import com.example.quizapp.entities.SingletonMap
 
 class CrearPreguntaSeleccion : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
