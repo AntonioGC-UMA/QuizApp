@@ -13,10 +13,10 @@ class SeleccionarTipoDePregunta : AppCompatActivity() {
 
         findViewById<Button>(R.id.seleccion).setOnClickListener { view ->
             println("Seleccion")
-            /*
-            val intent = Intent(this, SeleccionarTipoDePregunta::class.java)
+
+            val intent = Intent(this, CrearPreguntaSeleccion::class.java)
             startActivity(intent)
-             */
+
             this.finish()
         }
         findViewById<Button>(R.id.multipleRespuesta).setOnClickListener { view ->

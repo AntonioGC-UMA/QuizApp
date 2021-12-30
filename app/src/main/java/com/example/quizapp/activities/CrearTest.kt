@@ -19,19 +19,14 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class CrearTest : AppCompatActivity() {
-    var preguntas = emptyList<Pregunta>()
-    /*
-    listOf(
-        Pregunta("enunciado1", "tipo1", listOf(Pair("opcion1", false), Pair("opcion2", true))),
-        Pregunta("enunciado2", "tipo2", listOf(Pair("opcion1", true), Pair("opcion2", true))),
-        Pregunta("enunciado3", "tipo3", listOf(Pair("opcion1", true), Pair("opcion2", false))),
-        )
-    */
+    var preguntas = mutableListOf<Pregunta>()
     data class Pregunta(val enunciado : String, val tipo : String, val opciones : List<Pair<String, Boolean>>)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_crear_test)
+
+        SingletonMap["lista_preguntas"] = preguntas
 
         findViewById<FloatingActionButton>(R.id.addQuestion).setOnClickListener { view ->
             val intent = Intent(this, SeleccionarTipoDePregunta::class.java)
