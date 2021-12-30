@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.example.quizapp.CrearPreguntaSeleccion
 import com.example.quizapp.R
 
 class SeleccionarTipoDePregunta : AppCompatActivity() {
@@ -21,10 +22,10 @@ class SeleccionarTipoDePregunta : AppCompatActivity() {
         }
         findViewById<Button>(R.id.multipleRespuesta).setOnClickListener { view ->
             println("Multiple respuesta")
-            /*
+
             val intent = Intent(this, CrearPreguntaMultipleRespuesta::class.java)
             startActivity(intent)
-             */
+
             this.finish()
         }
         findViewById<Button>(R.id.rellenar_huecos).setOnClickListener { view ->
