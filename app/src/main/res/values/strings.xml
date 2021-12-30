@@ -11,4 +11,6 @@
     <string name="rellenar_huecos_enunciado">Enunciado de la pregunta</string>
     <string name="hint_respuesta_enuciado_rellenar_huecos">Ejemplo: los animales ... son sensibles. Los puntos suspensivos representan huecos para rellenar</string>
     <string name="txt_btn_add_respuesta_rellenar_huecos">Añadir respuestas</string>
+    <string name="guardar_respuestas_rellenar_huecos">Guardar respuestas</string>
+    <string name="aviso_rellenar_todos_los_huecos">Algunos huecos no están rellenos</string>
 </resources>
