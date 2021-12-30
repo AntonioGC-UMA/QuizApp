@@ -1,13 +1,14 @@
 package com.example.quizapp.activities
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.*
-import com.example.quizapp.R
-import android.widget.TextView
+import android.widget.Button
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.google.api.Distribution
+import com.example.quizapp.R
 
 
 class CrearPreguntaRellenarHuecos : AppCompatActivity() {
@@ -19,7 +20,7 @@ class CrearPreguntaRellenarHuecos : AppCompatActivity() {
         setContentView(R.layout.activity_crear_pregunta_rellenar_huecos)
 
         val texto = findViewById<EditText>(R.id.respuesta_enunciado)
-        linear_layout_rellenar_huecos = findViewById<LinearLayout>(R.id.respuestas_rellenar_huecos)
+        linear_layout_rellenar_huecos = findViewById(R.id.respuestas_rellenar_huecos)
         respuestas_huecos = mutableListOf()
 
         findViewById<Button>(R.id.btn_add_respuestas_rellenar_huecos).setOnClickListener { view ->
@@ -63,7 +64,7 @@ class CrearPreguntaRellenarHuecos : AppCompatActivity() {
             }
             println(rellenos)
             if(!rellenos) {
-                Toast.makeText(context, "Algunos huecos no están rellenos", Toast.LENGTH_SHORT)
+                Toast.makeText(context, "Algunos huecos no están rellenos", Toast.LENGTH_SHORT).show()
             } else {
                 //TODO: Añadir a la BD la pregunta
             }
