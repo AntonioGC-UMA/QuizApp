@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/myTestsFragment"
-        android:name="com.example.quizapp.MyTestsFragment"
+        android:name="com.example.quizapp.fragments.MyTestsFragment"
         android:label="My tests"
         tools:layout="@layout/fragment_my_tests" />
     <fragment
         android:id="@+id/doneTestsFragment"
-        android:name="com.example.quizapp.DoneTestsFragment"
+        android:name="com.example.quizapp.fragments.DoneTestsFragment"
         android:label="Tests done"
         tools:layout="@layout/fragment_done_tests" />
 </navigation>

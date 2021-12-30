@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".SeleccionarTipoDePregunta">
+    tools:context=".activities.SeleccionarTipoDePregunta">
 
     <Button
         android:id="@+id/seleccion"
@@ -23,9 +23,9 @@
         android:text="Multiple respuesta" />
 
     <Button
-        android:id="@+id/conectar"
+        android:id="@+id/rellenar_huecos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:text="Conectar" />
+        android:text="Rellenar huecos" />
 </LinearLayout>

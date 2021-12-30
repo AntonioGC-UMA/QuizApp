@@ -1,4 +1,4 @@
-package com.example.quizapp
+package com.example.quizapp.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,6 +12,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.quizapp.R
+import com.example.quizapp.entities.SingletonMap
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.ktx.firestore
@@ -57,8 +59,16 @@ class CrearTest : AppCompatActivity() {
             )
             Firebase.firestore.collection("tests")
                 .document().set(test)
-                .addOnSuccessListener { Toast.makeText(this, "Se ha creado el test correctamente", Toast.LENGTH_SHORT).show() }
-                .addOnFailureListener { Toast.makeText(this, "No se ha podido guardar información sobre el ususario: " + it.message, Toast.LENGTH_SHORT).show() }
+                .addOnSuccessListener { Toast.makeText(
+                    this,
+                    "Se ha creado el test correctamente",
+                    Toast.LENGTH_SHORT
+                ).show() }
+                .addOnFailureListener { Toast.makeText(
+                    this,
+                    "No se ha podido guardar información sobre el ususario: " + it.message,
+                    Toast.LENGTH_SHORT
+                ).show() }
 
         }
     }
