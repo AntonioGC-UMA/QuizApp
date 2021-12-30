@@ -1,11 +1,14 @@
 <resources>
     <string name="app_name">QuizApp</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="tests_done_title_fragment">Tests done</string>
-    <string name="my_tests_title_fragment">My tests</string>
-    <string name="sample_tests_done">Tests you have done</string>
-    <string name="login_user_email">Introduce an email</string>
-    <string name="login_user_password">Introduce a password (min 6 characters)</string>
-    <string name="test_description">Descripcion</string>
-    <string name="test_name">test de prueba</string>
+    <string name="tests_done_title_fragment">Tests realizados</string>
+    <string name="my_tests_title_fragment">Mis tests</string>
+    <string name="sample_tests_done">Tests realizados por ti</string>
+    <string name="login_user_email">Introduce un email</string>
+    <string name="login_user_password">Introduce una contraseña (min 6 caracteres)</string>
+    <string name="test_description">Descripción</string>
+    <string name="test_name">Test de prueba</string>
+    <string name="rellenar_huecos_enunciado">Enunciado de la pregunta</string>
+    <string name="hint_respuesta_enuciado_rellenar_huecos">Ejemplo: los animales ... son sensibles. Los puntos suspensivos representan huecos para rellenar</string>
+    <string name="txt_btn_add_respuesta_rellenar_huecos">Añadir respuestas</string>
 </resources>

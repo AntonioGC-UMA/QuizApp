@@ -22,17 +22,17 @@ class SeleccionarTipoDePregunta : AppCompatActivity() {
         findViewById<Button>(R.id.multipleRespuesta).setOnClickListener { view ->
             println("Multiple respuesta")
             /*
-            val intent = Intent(this, SeleccionarTipoDePregunta::class.java)
+            val intent = Intent(this, CrearPreguntaMultipleRespuesta::class.java)
             startActivity(intent)
              */
             this.finish()
         }
-        findViewById<Button>(R.id.conectar).setOnClickListener { view ->
-            println("Conectar")
-            /*
-            val intent = Intent(this, SeleccionarTipoDePregunta::class.java)
+        findViewById<Button>(R.id.rellenar_huecos).setOnClickListener { view ->
+            println("Rellenar huecos")
+
+            val intent = Intent(this, CrearPreguntaRellenarHuecos::class.java)
             startActivity(intent)
-             */
+
             this.finish()
         }
     }
