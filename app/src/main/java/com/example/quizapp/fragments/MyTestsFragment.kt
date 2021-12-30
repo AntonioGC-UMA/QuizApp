@@ -1,4 +1,4 @@
-package com.example.quizapp
+package com.example.quizapp.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.quizapp.R
+import com.example.quizapp.activities.CrearTest
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 // TODO: Rename parameter arguments, choose names that match

@@ -1,4 +1,4 @@
-package com.example.quizapp
+package com.example.quizapp.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,15 +6,19 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-
-
+import com.example.quizapp.R
 
 class CustomMyTestsAdapter: RecyclerView.Adapter<CustomMyTestsAdapter.ViewHolder>() {
     val titles = arrayOf("Titulo 1", "Titulo 2", "Titulo 4")
     val descriptions = arrayOf("Descripcion 1", "Descripcion 2", "Descripcion 4")
-    val images = intArrayOf(R.drawable.ic_launcher_background,R.drawable.ic_launcher_background, R.drawable.ic_launcher_background)
+    val images = intArrayOf(
+        R.drawable.ic_launcher_background,
+        R.drawable.ic_launcher_background,
+        R.drawable.ic_launcher_background
+    )
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
-        val v = LayoutInflater.from(viewGroup.context).inflate(R.layout.card_my_tests_layout, viewGroup, false)
+        val v = LayoutInflater.from(viewGroup.context)
+            .inflate(R.layout.card_my_tests_layout, viewGroup, false)
         return ViewHolder(v)
     }
 

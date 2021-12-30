@@ -1,4 +1,4 @@
-package com.example.quizapp
+package com.example.quizapp.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.quizapp.R
+import com.example.quizapp.entities.SingletonMap
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -28,7 +30,11 @@ private lateinit var databaseReference: DatabaseReference
             return null
         }
         if (password.length < 6) {
-            Toast.makeText(this, "La contraseña tiene que tener minimo 6 caracteres", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                "La contraseña tiene que tener minimo 6 caracteres",
+                Toast.LENGTH_SHORT
+            ).show()
             return null
         }
 
@@ -83,13 +89,21 @@ private lateinit var databaseReference: DatabaseReference
                         bd.collection("usuarios")
                             .document(auth.currentUser?.uid.orEmpty())
                             .set(usuario)
-                            .addOnFailureListener { Toast.makeText(this, "No se ha podido guardar información sobre el ususario: " + it.message, Toast.LENGTH_SHORT).show() }
+                            .addOnFailureListener { Toast.makeText(
+                                this,
+                                "No se ha podido guardar información sobre el ususario: " + it.message,
+                                Toast.LENGTH_SHORT
+                            ).show() }
                         val intent = Intent(this, Home::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         startActivity(intent)
                     }
                     .addOnFailureListener { exception ->
-                        Toast.makeText(baseContext, "Creación fallida: ${exception.message}", Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            baseContext,
+                            "Creación fallida: ${exception.message}",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 }
         }

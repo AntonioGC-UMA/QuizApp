@@ -10,16 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuizApp">
         <activity
-            android:name=".SeleccionarTipoDePregunta"
+            android:name=".activities.SeleccionarTipoDePregunta"
             android:exported="false" />
         <activity
-            android:name=".CrearTest"
+            android:name=".activities.CrearTest"
             android:exported="false" />
         <activity
-            android:name=".Home"
+            android:name=".activities.Home"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
