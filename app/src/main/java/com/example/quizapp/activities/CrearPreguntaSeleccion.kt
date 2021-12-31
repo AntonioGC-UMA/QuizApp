@@ -13,30 +13,32 @@ class CrearPreguntaSeleccion : AppCompatActivity() {
         setContentView(R.layout.activity_crear_pregunta_seleccion)
         val texto = findViewById<EditText>(R.id.texto_seleccion)
         val radio_group = findViewById<RadioGroup>(R.id.radio_group)
-        findViewById<Button>(R.id.nueva_seleccion).setOnClickListener { view ->
+        val enunciado = findViewById<EditText>(R.id.enunciado_seleccion)
+        findViewById<Button>(R.id.nueva_seleccion).setOnClickListener {
             if (texto.text.isEmpty()) {
-                Toast.makeText(this, "El texto no puede estar vacio", Toast.LENGTH_SHORT)
+                Toast.makeText(this, "El texto no puede estar vacio", Toast.LENGTH_SHORT).show()
             } else {
 
                 val t = texto.text.toString()
                 texto.text.clear()
                 val r = RadioButton(this)
-                r.text = t;
+                r.text = t
                 radio_group.addView(r)
             }
         }
 
-        findViewById<Button>(R.id.cancelar_crear_pregunta_conectar).setOnClickListener { view ->
+        findViewById<Button>(R.id.cancelar_crear_pregunta_conectar).setOnClickListener {
             // TODO: poner un: estas seguro?
             finish()
         }
-        findViewById<Button>(R.id.crear_pregunta_conectar).setOnClickListener { view ->
+        findViewById<Button>(R.id.crear_pregunta_conectar).setOnClickListener {
             if (radio_group.checkedRadioButtonId == -1) {
-                Toast.makeText(this, "Tienes que seleccionar una opcion", Toast.LENGTH_SHORT)
+                Toast.makeText(this, "Tienes que seleccionar una opcion", Toast.LENGTH_SHORT).show()
+            } else if (enunciado.text.isEmpty()) {
+                Toast.makeText(this, "El enunciado no puede estar vacío", Toast.LENGTH_SHORT).show()
             } else {
-                var preguntas = SingletonMap["lista_preguntas"] as MutableList<CrearTest.Pregunta>
-                // TODO: poner un enunciado
-                preguntas.add(CrearTest.Pregunta("TODO, poner un enunciado", "seleccion",
+                val preguntas = SingletonMap["lista_preguntas"] as MutableList<CrearTest.Pregunta>
+                preguntas.add(CrearTest.Pregunta(enunciado.text.toString(), "seleccion",
                     radio_group.children.filter { it is RadioButton }.map {
                         val r = it as RadioButton
                         Pair(r.text.toString(), r.isChecked)

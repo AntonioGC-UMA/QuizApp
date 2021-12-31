@@ -46,11 +46,10 @@ class DoneTestsFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_done_tests, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewMyTests)
-        val adapter = CustomMyTestsAdapter()
+        val data = arrayListOf<String>("Hola", "Pepe", "Pelo")
+        val adapter = CustomMyTestsAdapter(data)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = adapter
-        //textTestsDone = view.findViewById<TextView>(R.id.sampleTestsDone)
-        //textTestsDone?.text = user?.email.toString()
         return view
     }
 
