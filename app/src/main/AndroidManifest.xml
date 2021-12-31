@@ -19,6 +19,9 @@
             android:name=".activities.CrearPreguntaSeleccion"
             android:exported="false" />
         <activity
+            android:name=".activities.CrearPreguntaMultipleRespuesta"
+            android:exported="false" />
+        <activity
             android:name=".activities.CrearTest"
             android:exported="false" />
         <activity
