@@ -20,8 +20,13 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class CrearTest : AppCompatActivity() {
-    var preguntas = mutableListOf<Pregunta>()
-    data class Pregunta(val enunciado : String, val tipo : String, val opciones : List<Pair<String, Boolean>>)
+    private var preguntas = mutableListOf<Pregunta>()
+
+    data class Pregunta(
+        val enunciado: String,
+        val tipo: String,
+        val opciones: List<Pair<String, Boolean>>
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,16 +34,17 @@ class CrearTest : AppCompatActivity() {
 
         SingletonMap["lista_preguntas"] = preguntas
 
-        findViewById<FloatingActionButton>(R.id.addQuestion).setOnClickListener { view ->
+        findViewById<FloatingActionButton>(R.id.addQuestion).setOnClickListener {
             val intent = Intent(this, SeleccionarTipoDePregunta::class.java)
             startActivity(intent)
         }
 
-        findViewById<Button>(R.id.cancelar).setOnClickListener { view ->
+        findViewById<Button>(R.id.cancelar).setOnClickListener {
+            //
             this.finish()
         }
 
-        findViewById<Button>(R.id.crear).setOnClickListener { view ->
+        findViewById<Button>(R.id.crear).setOnClickListener {
 
             val titulo = findViewById<EditText>(R.id.titulo).text
             val descripcion = findViewById<EditText>(R.id.descripcion).text
@@ -48,35 +54,43 @@ class CrearTest : AppCompatActivity() {
                 "descripcion" to descripcion.toString(),
                 "titulo" to titulo.toString(),
                 "fecha de creacion" to Timestamp.now(),
-                "preguntas" to preguntas.map { hashMapOf(
-                    "enunciado" to it.enunciado,
-                    "tipo" to it.tipo,
-                    "opciones" to it.opciones.map { hashMapOf(
-                        "respuesta" to it.first,
-                        "correcta" to it.second
-                    ) }
-                ) }
+                "preguntas" to preguntas.map {
+                    hashMapOf(
+                        "enunciado" to it.enunciado,
+                        "tipo" to it.tipo,
+                        "opciones" to it.opciones.map { opcion ->
+                            hashMapOf(
+                                "respuesta" to opcion.first,
+                                "correcta" to opcion.second
+                            )
+                        }
+                    )
+                }
             )
             Firebase.firestore.collection("tests")
                 .document().set(test)
-                .addOnSuccessListener { Toast.makeText(
-                    this,
-                    "Se ha creado el test correctamente",
-                    Toast.LENGTH_SHORT
-                ).show() }
-                .addOnFailureListener { Toast.makeText(
-                    this,
-                    "No se ha podido guardar información sobre el ususario: " + it.message,
-                    Toast.LENGTH_SHORT
-                ).show() }
-
+                .addOnSuccessListener {
+                    Toast.makeText(
+                        this,
+                        "Se ha creado el test correctamente",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    this.finish()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(
+                        this,
+                        "No se ha podido guardar información sobre el ususario: " + it.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
         }
     }
 
     // usa esta funcion para actualizar la lista cuando se añadan nuevos elementos?
     override fun onResume() {
         super.onResume()
-        val recyclerView = findViewById<RecyclerView>(R.id.listaPreguntas);
+        val recyclerView = findViewById<RecyclerView>(R.id.listaPreguntas)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = CustomAdapter(preguntas)
     }
@@ -86,14 +100,8 @@ class CrearTest : AppCompatActivity() {
         RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
         inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-            val tipo: TextView
-            val enunciado: TextView
-
-            init {
-                // Define click listener for the ViewHolder's View.
-                tipo = view.findViewById(R.id.tipo)
-                enunciado = view.findViewById(R.id.enunciado)
-            }
+            val tipo: TextView = view.findViewById(R.id.tipo)
+            val enunciado: TextView = view.findViewById(R.id.enunciado)
         }
 
         override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
