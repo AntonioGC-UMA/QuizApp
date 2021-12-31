@@ -38,7 +38,7 @@ class CustomMyTestsAdapter: RecyclerView.Adapter<CustomMyTestsAdapter.ViewHolder
 
         init {
             itemImage = itemView.findViewById(R.id.item_image)
-            itemTitle = itemView.findViewById(R.id.test_description)
+            itemTitle = itemView.findViewById(R.id.test_name)
             itemDescription = itemView.findViewById(R.id.test_description)
 
         }
