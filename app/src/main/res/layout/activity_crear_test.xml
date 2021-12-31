@@ -8,15 +8,14 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listaPreguntas"
-        android:layout_width="352dp"
-        android:layout_height="448dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:scrollbars="none"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/descripcion"
-        app:layout_constraintVertical_bias="0.112" />
+        app:layout_constraintTop_toBottomOf="@+id/descripcion" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addQuestion"
@@ -44,8 +43,8 @@
 
     <EditText
         android:id="@+id/descripcion"
-        android:layout_width="262dp"
-        android:layout_height="110dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:ems="10"
         android:gravity="start|top"
@@ -57,14 +56,14 @@
         app:layout_constraintTop_toBottomOf="@+id/titulo" />
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listaPreguntas">
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/cancelar"

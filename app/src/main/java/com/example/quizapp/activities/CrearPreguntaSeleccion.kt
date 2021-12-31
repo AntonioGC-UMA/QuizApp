@@ -34,8 +34,7 @@ class CrearPreguntaSeleccion : AppCompatActivity() {
         findViewById<Button>(R.id.crear_pregunta_conectar).setOnClickListener {
             if (radio_group.checkedRadioButtonId == -1) {
                 Toast.makeText(this, "Tienes que seleccionar una opcion", Toast.LENGTH_SHORT).show()
-            }
-            if (enunciado.text.isEmpty()) {
+            } else if (enunciado.text.isEmpty()) {
                 Toast.makeText(this, "El enunciado no puede estar vacío", Toast.LENGTH_SHORT).show()
             } else {
                 val preguntas = SingletonMap["lista_preguntas"] as MutableList<CrearTest.Pregunta>
