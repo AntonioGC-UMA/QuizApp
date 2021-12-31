@@ -16,8 +16,14 @@ import com.example.quizapp.R
 import com.example.quizapp.entities.SingletonMap
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.ktx.app
+import com.google.firebase.storage.FirebaseStorage
 
 class CrearTest : AppCompatActivity() {
     private var preguntas = mutableListOf<Pregunta>()
@@ -33,7 +39,6 @@ class CrearTest : AppCompatActivity() {
         setContentView(R.layout.activity_crear_test)
 
         SingletonMap["lista_preguntas"] = preguntas
-
         findViewById<FloatingActionButton>(R.id.addQuestion).setOnClickListener {
             val intent = Intent(this, SeleccionarTipoDePregunta::class.java)
             startActivity(intent)
@@ -67,8 +72,9 @@ class CrearTest : AppCompatActivity() {
                     )
                 }
             )
-            Firebase.firestore.collection("tests")
-                .document().set(test)
+            val new_test = Firebase.firestore.collection("tests")
+                .document()
+            new_test.set(test)
                 .addOnSuccessListener {
                     Toast.makeText(
                         this,
@@ -84,6 +90,22 @@ class CrearTest : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+
+            //Esto de aqui no funca pero la idea es que en el campo mis tests se añada una nueva entrada
+            // del tipo tests/id_del_test_que_acabas_de_crear...
+            val assign_to_user = Firebase.firestore.collection("usuarios").document(FirebaseAuth.getInstance().currentUser?.uid.orEmpty())
+            assign_to_user.update("mis tests", FieldValue.arrayUnion("tests/" + new_test.id))
+                .addOnSuccessListener { Toast.makeText(
+                    this,
+                    "Test asignado al usuario",
+                    Toast.LENGTH_SHORT
+                ).show() }
+                .addOnFailureListener { Toast.makeText(
+                    this,
+                    "Error al asignar el test al usuario",
+                    Toast.LENGTH_SHORT
+                ).show() }
+
         }
     }
 
