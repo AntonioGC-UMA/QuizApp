@@ -7,8 +7,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quizapp.R
+import com.example.quizapp.entities.SingletonMap
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
-class CustomMyTestsAdapter: RecyclerView.Adapter<CustomMyTestsAdapter.ViewHolder>() {
+class CustomMyTestsAdapter(private val list: ArrayList<String>): RecyclerView.Adapter<CustomMyTestsAdapter.ViewHolder>() {
     val titles = arrayOf("Titulo 1", "Titulo 2", "Titulo 4")
     val descriptions = arrayOf("Descripcion 1", "Descripcion 2", "Descripcion 4")
     val images = intArrayOf(
@@ -16,6 +19,7 @@ class CustomMyTestsAdapter: RecyclerView.Adapter<CustomMyTestsAdapter.ViewHolder
         R.drawable.ic_launcher_background,
         R.drawable.ic_launcher_background
     )
+
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
         val v = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.card_my_tests_layout, viewGroup, false)
@@ -23,7 +27,7 @@ class CustomMyTestsAdapter: RecyclerView.Adapter<CustomMyTestsAdapter.ViewHolder
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
-        viewHolder.itemTitle.text = titles[i]
+        viewHolder.itemTitle.text = list[i]
         viewHolder.itemDescription.text = descriptions[i]
         viewHolder.itemImage.setImageResource(images[i])
     }
@@ -44,3 +48,5 @@ class CustomMyTestsAdapter: RecyclerView.Adapter<CustomMyTestsAdapter.ViewHolder
         }
     }
 }
+
+
