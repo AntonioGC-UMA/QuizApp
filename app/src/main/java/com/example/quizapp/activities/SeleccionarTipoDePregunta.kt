@@ -21,10 +21,10 @@ class SeleccionarTipoDePregunta : AppCompatActivity() {
         }
         findViewById<Button>(R.id.multipleRespuesta).setOnClickListener { view ->
             println("Multiple respuesta")
-            /*
+
             val intent = Intent(this, CrearPreguntaMultipleRespuesta::class.java)
             startActivity(intent)
-             */
+
             this.finish()
         }
         findViewById<Button>(R.id.rellenar_huecos).setOnClickListener { view ->

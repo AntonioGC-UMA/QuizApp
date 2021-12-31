@@ -85,7 +85,6 @@ class CrearTest : AppCompatActivity() {
     inner class CustomAdapter(private val dataSet: List<Pregunta>) :
         RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
-
         inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             val tipo: TextView
             val enunciado: TextView

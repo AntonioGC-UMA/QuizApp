@@ -4,34 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.CrearPreguntaRellenarHuecos">
+    tools:context=".activities.CrearPreguntaMultipleRespuesta">
 
     <TextView
-        android:id="@+id/rellenar_huecos_enunciado"
+        android:id="@+id/multiple_respuesta_enunciado"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:text="@string/rellenar_huecos_enunciado"
         app:layout_constraintBottom_toTopOf="@+id/respuesta_enunciado"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.209"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.806" />
+        app:layout_constraintEnd_toEndOf="@+id/respuesta_enunciado"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/respuesta_enunciado" />
 
     <EditText
         android:id="@+id/respuesta_enunciado"
         android:layout_width="318dp"
-        android:layout_height="82dp"
-        android:layout_marginBottom="440dp"
+        android:layout_height="50dp"
         android:ems="10"
         android:gravity="start|top"
-        android:hint="@string/hint_respuesta_enuciado_rellenar_huecos"
         android:inputType="textMultiLine"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.569"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.287"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
@@ -40,8 +39,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="@string/txt_btn_add_respuesta_rellenar_huecos"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/respuesta_enunciado"
+        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintStart_toStartOf="@+id/respuesta_enunciado"
         app:layout_constraintTop_toBottomOf="@+id/respuesta_enunciado" />
 
     <LinearLayout
@@ -54,5 +54,11 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_add_respuestas_rellenar_huecos"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0" >
+
+        <GridView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
