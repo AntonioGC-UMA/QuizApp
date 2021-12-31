@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:text="Multiple respuesta" />
+        android:text="Multiple respuesta2" />
 
     <Button
         android:id="@+id/rellenar_huecos"
