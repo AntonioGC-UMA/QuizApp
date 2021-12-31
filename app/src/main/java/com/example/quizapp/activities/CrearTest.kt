@@ -93,16 +93,17 @@ class CrearTest : AppCompatActivity() {
 
             //Esto de aqui no funca pero la idea es que en el campo mis tests se añada una nueva entrada
             // del tipo tests/id_del_test_que_acabas_de_crear...
-            val assign_to_user = Firebase.firestore.collection("usuarios").document(FirebaseAuth.getInstance().currentUser?.uid.orEmpty())
-            assign_to_user.update("mis tests", FieldValue.arrayUnion("tests/" + new_test.id))
+            val doc_id = FirebaseAuth.getInstance().currentUser?.uid.orEmpty()
+            val assign_to_user = Firebase.firestore.collection("usuarios").document(doc_id)
+            assign_to_user.update("mis tests", FieldValue.arrayUnion(new_test))
                 .addOnSuccessListener { Toast.makeText(
                     this,
                     "Test asignado al usuario",
                     Toast.LENGTH_SHORT
                 ).show() }
-                .addOnFailureListener { Toast.makeText(
+                .addOnFailureListener { exception -> Toast.makeText(
                     this,
-                    "Error al asignar el test al usuario",
+                    "Error al asignar el test al usuario ${exception.message}",
                     Toast.LENGTH_SHORT
                 ).show() }
 
