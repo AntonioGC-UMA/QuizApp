@@ -5,10 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import android.widget.MultiAutoCompleteTextView.CommaTokenizer
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,13 +15,10 @@ import com.example.quizapp.entities.SingletonMap
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.ktx.app
-import com.google.firebase.storage.FirebaseStorage
+
 
 class CrearTest : AppCompatActivity() {
     private var preguntas = mutableListOf<Pregunta>()
@@ -44,67 +39,105 @@ class CrearTest : AppCompatActivity() {
             startActivity(intent)
         }
 
+
+        val tags = findViewById<MultiAutoCompleteTextView>(R.id.multiAutoCompleteTextView)
+
+        val lista_tags = listOf("entretenimiento", "cultura", "ciencias", "matemáticas", "historia", "universidad", "animales", "arte", "fiestas", "deportes", "geografía", "juegos", "marcas", "música")
+
+        ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, lista_tags).also { adapter ->
+            tags.setAdapter(adapter)
+        }
+        tags.setTokenizer(CommaTokenizer())
+        tags.threshold = 0;
+
         findViewById<Button>(R.id.cancelar).setOnClickListener {
-            //
             this.finish()
         }
 
         findViewById<Button>(R.id.crear).setOnClickListener {
-
             val titulo = findViewById<EditText>(R.id.titulo).text
             val descripcion = findViewById<EditText>(R.id.descripcion).text
-
-            val test = hashMapOf(
-                "categoria" to "TODO hacer esto",
-                "descripcion" to descripcion.toString(),
-                "titulo" to titulo.toString(),
-                "fecha de creacion" to Timestamp.now(),
-                "preguntas" to preguntas.map {
-                    hashMapOf(
-                        "enunciado" to it.enunciado,
-                        "tipo" to it.tipo,
-                        "opciones" to it.opciones.map { opcion ->
-                            hashMapOf(
-                                "respuesta" to opcion.first,
-                                "correcta" to opcion.second
-                            )
-                        }
-                    )
-                }
-            )
-            val new_test = Firebase.firestore.collection("tests")
-                .document()
-            new_test.set(test)
-                .addOnSuccessListener {
-                    Toast.makeText(
-                        this,
-                        "Se ha creado el test correctamente",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    this.finish()
-                }
-                .addOnFailureListener {
-                    Toast.makeText(
-                        this,
-                        "No se ha podido guardar información sobre el ususario: " + it.message,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-
-            //Esto de aqui no funca pero la idea es que en el campo mis tests se añada una nueva entrada
-            // del tipo tests/id_del_test_que_acabas_de_crear...
-            val assign_to_user = Firebase.firestore.collection("usuarios").document(FirebaseAuth.getInstance().currentUser?.uid.orEmpty())
-            assign_to_user.update("mis tests", FieldValue.arrayUnion("tests/" + new_test.id))
-                .addOnSuccessListener { Toast.makeText(
+            val tag_list = tags.text.toString().split(", ").filter { it.isNotEmpty() }.distinct()
+            if (preguntas.size < 3) {
+                Toast.makeText(
                     this,
-                    "Test asignado al usuario",
+                    "Un test debe tener minimo 3 preguntas",
                     Toast.LENGTH_SHORT
-                ).show() }
-                .addOnFailureListener { Toast.makeText(
+                ).show()
+
+            } else if (tag_list.isEmpty()) {
+                Toast.makeText(
                     this,
-                    "Error al asignar el test al usuario",
+                    "Un test debe tener minimo una categoría",
                     Toast.LENGTH_SHORT
-                ).show() }
+                ).show()
+            } else if (titulo.isEmpty()) {
+                Toast.makeText(
+                    this,
+                    "Un test debe tener un titulo",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else if (descripcion.isEmpty()) {
+                Toast.makeText(
+                    this,
+                    "Un test debe tener una descipcion",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                val test = hashMapOf(
+                    "categorias" to tag_list,
+                    "descripcion" to descripcion.toString(),
+                    "titulo" to titulo.toString(),
+                    "fecha de creacion" to Timestamp.now(),
+                    "preguntas" to preguntas.map {
+                        hashMapOf(
+                            "enunciado" to it.enunciado,
+                            "tipo" to it.tipo,
+                            "opciones" to it.opciones.map { opcion ->
+                                hashMapOf(
+                                    "respuesta" to opcion.first,
+                                    "correcta" to opcion.second
+                                )
+                            }
+                        )
+                    }
+                )
+                val new_test = Firebase.firestore.collection("tests")
+                    .document()
+                new_test.set(test)
+                    .addOnSuccessListener {
+                        Toast.makeText(
+                            this,
+                            "Se ha creado el test correctamente",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        this.finish()
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(
+                            this,
+                            "No se ha podido guardar información sobre el ususario: " + it.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                //Esto de aqui no funca pero la idea es que en el campo mis tests se añada una nueva entrada
+                // del tipo tests/id_del_test_que_acabas_de_crear...
+                val doc_id = FirebaseAuth.getInstance().currentUser?.uid.orEmpty()
+                val assign_to_user = Firebase.firestore.collection("usuarios").document(doc_id)
+                assign_to_user.update("mis tests", FieldValue.arrayUnion(new_test))
+                    .addOnSuccessListener { Toast.makeText(
+                        this,
+                        "Test asignado al usuario",
+                        Toast.LENGTH_SHORT
+                    ).show() }
+                    .addOnFailureListener { exception -> Toast.makeText(
+                        this,
+                        "Error al asignar el test al usuario ${exception.message}",
+                        Toast.LENGTH_SHORT
+                    ).show() }
+            }
+
 
         }
     }
