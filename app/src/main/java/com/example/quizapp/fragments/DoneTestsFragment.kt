@@ -11,6 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.quizapp.R
 import com.example.quizapp.adapters.CustomMyTestsAdapter
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -47,6 +50,22 @@ class DoneTestsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_done_tests, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewMyTests)
         val data = arrayListOf<String>("Hola", "Pepe", "Pelo")
+        val user_id = FirebaseAuth.getInstance().currentUser?.uid.orEmpty()
+        val user = Firebase.firestore.collection("usuarios").document(user_id)
+        user.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    val tests = document.data?.get("mis tests") as List<DocumentReference>
+                    for(t in tests){
+                        println(t.id)
+                        t.get().addOnSuccessListener { document -> println(document.data?.get("categoria")) }
+                    }
+                } else {
+                }
+            }
+            .addOnFailureListener { exception ->
+               println("algo")
+            }
         val adapter = CustomMyTestsAdapter(data)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = adapter
