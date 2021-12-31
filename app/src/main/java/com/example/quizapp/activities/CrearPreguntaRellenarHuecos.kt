@@ -26,7 +26,7 @@ class CrearPreguntaRellenarHuecos : AppCompatActivity() {
 
         findViewById<Button>(R.id.btn_add_respuestas_rellenar_huecos).setOnClickListener { view ->
             if (texto.text.isEmpty()) {
-                Toast.makeText(this, "El enunciado no puede estar vacío", Toast.LENGTH_SHORT)
+                Toast.makeText(this, "El enunciado no puede estar vacío", Toast.LENGTH_SHORT).show()
             } else {
                 linear_layout_rellenar_huecos.removeAllViews()
                 respuestas_huecos.clear()
