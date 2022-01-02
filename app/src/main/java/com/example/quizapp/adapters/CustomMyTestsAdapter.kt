@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.quizapp.R
 import com.example.quizapp.activities.CrearTest
 
-class CustomMyTestsAdapter(private val list: MutableList<String>): RecyclerView.Adapter<CustomMyTestsAdapter.ViewHolder>() {
+class CustomMyTestsAdapter(private val list: ArrayList<String>): RecyclerView.Adapter<CustomMyTestsAdapter.ViewHolder>() {
     val titles = arrayOf("cosas")
     val descriptions = arrayOf("Descripcion 1", "Descripcion 2", "Descripcion 4")
     val images = intArrayOf(

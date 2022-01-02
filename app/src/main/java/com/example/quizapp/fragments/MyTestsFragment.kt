@@ -6,11 +6,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quizapp.R
+import com.example.quizapp.activities.CrearPreguntaMultipleRespuesta
+import com.example.quizapp.activities.CrearPreguntaRellenarHuecos
+import com.example.quizapp.activities.CrearPreguntaSeleccion
 import com.example.quizapp.activities.CrearTest
 import com.example.quizapp.adapters.CustomMyTestsAdapter
+import com.example.quizapp.entities.SingletonMap
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
@@ -56,25 +64,22 @@ class MyTestsFragment : Fragment() {
         val data = mutableListOf<String>()
         val user_id = FirebaseAuth.getInstance().currentUser?.uid.orEmpty()
         val user = Firebase.firestore.collection("usuarios").document(user_id)
+
         user.get()
             .addOnSuccessListener { document ->
                 if (document != null) {
                     val tests = document.data?.get("mis tests") as List<DocumentReference>
-                    for(t in tests){
-                        println(t.id)
-                        t.get().addOnSuccessListener { document ->
-                            data.add(document.id)
-                            println(document.data?.get("categoria")) }
-                    }
-                } else {
+                    val adapter = CustomAdapter(tests.map { it.id })
+                    recyclerView.layoutManager = LinearLayoutManager(activity)
+                    recyclerView.adapter = adapter
+                } else{
+                    println("else eee")
                 }
             }
             .addOnFailureListener { exception ->
                 println("algo")
             }
-        val adapter = CustomMyTestsAdapter(data)
-        recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = adapter
+
         return view
     }
 
@@ -96,5 +101,34 @@ class MyTestsFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+    // Esto es del recycler view
+    inner class CustomAdapter(private val dataSet: List<String>) :
+        RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+
+        inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+            val itemTitle : TextView = itemView.findViewById(R.id.test_name)
+            val itemDescription : TextView = itemView.findViewById(R.id.test_description)
+        }
+
+        override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
+            // Create a new view, which defines the UI of the list item
+            val view = LayoutInflater.from(viewGroup.context)
+                .inflate(R.layout.card_my_tests_layout, viewGroup, false)
+
+            return ViewHolder(view)
+        }
+
+        override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+            viewHolder.itemTitle.text = dataSet[position]
+            viewHolder.itemDescription.text = dataSet[position]
+            viewHolder.view.setOnClickListener{
+                val intent = Intent(viewHolder.view.context, CrearTest::class.java)
+                intent.putExtra("id", dataSet[position])
+                viewHolder.view.context.startActivity(intent)
+            }
+        }
+
+        override fun getItemCount() = dataSet.size
     }
 }
