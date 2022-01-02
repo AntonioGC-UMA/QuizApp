@@ -20,5 +20,11 @@
     <string name="respuesta_rellenar_huecos">Escribe la respuesta </string>
     <string name="texto_no_vacio">El texto no puede estar vacío</string>
     <string name="seleccionar_opcion">Tienes que seleccionar una opción</string>
-
+    <string name="test_minimo_3_preguntas">Un test debe tener minimo 3 preguntas</string>
+    <string name="test_minimo_1_categoria">Un test debe tener minimo una categoría</string>
+    <string name="test_minimo_1_titulo">Un test debe tener un título</string>
+    <string name="test_minimo_1_descripcion">Un test debe tener una descripción</string>
+    <string name="test_creado_exito">Se ha creado el test correctamente</string>
+    <string name="test_creado_fallo">Ha habido un error al crear el test: </string>
+    <string name="test_asignado_fallo">Ha habido un error al asignar el test: </string>
 </resources>

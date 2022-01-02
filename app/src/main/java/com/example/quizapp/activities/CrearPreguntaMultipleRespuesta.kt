@@ -22,7 +22,7 @@ class CrearPreguntaMultipleRespuesta : AppCompatActivity() {
 
         findViewById<Button>(R.id.button_anadir).setOnClickListener {
             if (nuevaOpcion.text.isEmpty()) {
-                Toast.makeText(this, "El texto no puede estar vacio", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.texto_no_vacio), Toast.LENGTH_SHORT).show()
             } else {
 
                 val t = nuevaOpcion.text.toString()
@@ -59,7 +59,7 @@ class CrearPreguntaMultipleRespuesta : AppCompatActivity() {
                 Toast.makeText(this,getString(R.string.aviso_crear_alguna_opcion) , Toast.LENGTH_SHORT).show()
             } else if(CheckedCount(checkboxes) == 0){
                 Toast.makeText(this, getString(R.string.aviso_seleccionar_alguna_opcion), Toast.LENGTH_SHORT).show()
-            }else if(enunciado.text.toString() == "" || enunciado.text.toString() == "Enunciado"){
+            }else if(enunciado.text.isEmpty()){
                 Toast.makeText(this, getString(R.string.aviso_enunciado_correcto), Toast.LENGTH_SHORT).show()
             }else {
                 var preguntas = SingletonMap["lista_preguntas"] as MutableList<CrearTest.Pregunta>
