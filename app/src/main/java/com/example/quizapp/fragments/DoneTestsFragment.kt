@@ -48,7 +48,7 @@ class DoneTestsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_done_tests, container, false)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewMyTests)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewMyTestsDone)
         val data = arrayListOf<String>("Hola", "Pepe", "Pelo")
         val user_id = FirebaseAuth.getInstance().currentUser?.uid.orEmpty()
         val user = Firebase.firestore.collection("usuarios").document(user_id)

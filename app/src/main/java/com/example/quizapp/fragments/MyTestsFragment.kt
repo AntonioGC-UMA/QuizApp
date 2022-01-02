@@ -6,9 +6,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.quizapp.R
 import com.example.quizapp.activities.CrearTest
+import com.example.quizapp.adapters.CustomMyTestsAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -44,6 +51,30 @@ class MyTestsFragment : Fragment() {
             val intent = Intent(activity, CrearTest::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent) }
+
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewMyTests)
+        val data = mutableListOf<String>()
+        val user_id = FirebaseAuth.getInstance().currentUser?.uid.orEmpty()
+        val user = Firebase.firestore.collection("usuarios").document(user_id)
+        user.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    val tests = document.data?.get("mis tests") as List<DocumentReference>
+                    for(t in tests){
+                        println(t.id)
+                        t.get().addOnSuccessListener { document ->
+                            data.add(document.id)
+                            println(document.data?.get("categoria")) }
+                    }
+                } else {
+                }
+            }
+            .addOnFailureListener { exception ->
+                println("algo")
+            }
+        val adapter = CustomMyTestsAdapter(data)
+        recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView.adapter = adapter
         return view
     }
 
