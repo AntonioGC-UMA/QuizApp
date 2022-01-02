@@ -10,7 +10,7 @@
         android:layout_width="348dp"
         android:layout_height="44dp"
         android:ems="10"
-        android:hint="Enunciado"
+        android:hint="@string/enunciado_pregunta"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

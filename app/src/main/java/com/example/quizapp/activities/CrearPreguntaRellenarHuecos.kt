@@ -2,12 +2,10 @@ package com.example.quizapp.activities
 
 import android.content.Context
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.children
 import com.example.quizapp.R
 import com.example.quizapp.entities.SingletonMap
 
@@ -24,6 +22,39 @@ class CrearPreguntaRellenarHuecos : AppCompatActivity() {
         linear_layout_rellenar_huecos = findViewById(R.id.respuestas_rellenar_huecos)
         respuestas_huecos = mutableListOf()
 
+        val extras = getIntent().getExtras()
+        val button_guardar_pregunta = Button(this)
+        button_guardar_pregunta.text = getString(R.string.guardar_respuestas_rellenar_huecos)
+        button_guardar_pregunta.setTextColor(ContextCompat.getColor(this,R.color.white))
+        button_guardar_pregunta.setBackgroundColor(ContextCompat.getColor(this,R.color.purple_500))
+
+        if(extras != null){
+            linear_layout_rellenar_huecos.removeAllViews()
+            respuestas_huecos.clear()
+            val value = extras.getInt("idx");
+            val preguntas = SingletonMap["lista_preguntas"] as MutableList<CrearTest.Pregunta>
+            texto.setText(preguntas[value].enunciado, TextView.BufferType.EDITABLE)
+            layout_params = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            preguntas[value].opciones.forEachIndexed { index, o ->
+                val r = EditText(this)
+                r.layoutParams = layout_params
+                r.setText(o.first, TextView.BufferType.EDITABLE)
+                linear_layout_rellenar_huecos.addView(r)
+                respuestas_huecos.add(r)
+            }
+
+
+            button_guardar_pregunta.layoutParams = layout_params
+            linear_layout_rellenar_huecos.addView(button_guardar_pregunta)
+            if (!texto.text.isEmpty()){
+                guardar_pregunta(button_guardar_pregunta, this, texto.text.toString(), value)
+            } else {
+                Toast.makeText(this, getString(R.string.enunciado_no_vacio), Toast.LENGTH_SHORT).show()
+            }
+
+        }
         findViewById<Button>(R.id.btn_add_respuestas_rellenar_huecos).setOnClickListener { view ->
             if (texto.text.isEmpty()) {
                 Toast.makeText(this, getString(R.string.enunciado_no_vacio), Toast.LENGTH_SHORT).show()
@@ -40,42 +71,46 @@ class CrearPreguntaRellenarHuecos : AppCompatActivity() {
                 for (i in 1..matches) {
                     val r = EditText(this)
                     r.layoutParams = layout_params
-                    r.hint = getString(R.string.respuesta_rellenar_huecos) + i
+                    r.hint = getString(R.string.respuesta_rellenar_huecos) + " " + i
                     linear_layout_rellenar_huecos.addView(r)
                     respuestas_huecos.add(r)
                 }
+                button_guardar_pregunta.layoutParams = layout_params
+                linear_layout_rellenar_huecos.addView(button_guardar_pregunta)
 
-                crear_boton_y_guardar_pregunta(this, t)
+                guardar_pregunta(button_guardar_pregunta, this, t, -1)
 
             }
         }
     }
 
-    private fun crear_boton_y_guardar_pregunta(context: Context, enunciado: String) {
+    private fun guardar_pregunta(button:Button, context:Context, enunciado: String, index:Int) {
 
-        val button_guardar_pregunta = Button(context)
-        button_guardar_pregunta.layoutParams = layout_params
-        button_guardar_pregunta.text = getString(R.string.guardar_respuestas_rellenar_huecos)
-        button_guardar_pregunta.setTextColor(ContextCompat.getColor(this,R.color.white))
-        button_guardar_pregunta.setBackgroundColor(ContextCompat.getColor(this,R.color.purple_500))
-        linear_layout_rellenar_huecos.addView(button_guardar_pregunta)
-        button_guardar_pregunta.setOnClickListener{ view ->
+        button.setOnClickListener{ view ->
             var rellenos = true
             for (edit in respuestas_huecos) {
                 if(edit.text.isEmpty()){
                     rellenos = false
                 }
             }
-            println(rellenos)
             if(!rellenos) {
                 Toast.makeText(context, getString(R.string.aviso_rellenar_todos_los_huecos), Toast.LENGTH_SHORT).show()
             } else {
                 val preguntas = SingletonMap["lista_preguntas"] as MutableList<CrearTest.Pregunta>
-                preguntas.add(CrearTest.Pregunta(enunciado, "rellenar huecos",
-                    respuestas_huecos.map {
-                        Pair(it.text.toString(), true)
-                    }.toList()
-                ))
+                if(index != -1){
+                    preguntas[index] = CrearTest.Pregunta(enunciado, "rellenar huecos",
+                        respuestas_huecos.map {
+                            Pair(it.text.toString(), true)
+                        }.toList()
+                    )
+                } else {
+                    preguntas.add(CrearTest.Pregunta(enunciado, "rellenar huecos",
+                        respuestas_huecos.map {
+                            Pair(it.text.toString(), true)
+                        }.toList()
+                    ))
+                }
+
                 finish()
             }
         }
