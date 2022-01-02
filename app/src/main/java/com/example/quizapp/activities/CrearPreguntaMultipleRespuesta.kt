@@ -22,7 +22,7 @@ class CrearPreguntaMultipleRespuesta : AppCompatActivity() {
 
         findViewById<Button>(R.id.button_anadir).setOnClickListener {
             if (nuevaOpcion.text.isEmpty()) {
-                Toast.makeText(this, "El texto no puede estar vacio", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.texto_no_vacio), Toast.LENGTH_SHORT).show()
             } else {
 
                 val t = nuevaOpcion.text.toString()
