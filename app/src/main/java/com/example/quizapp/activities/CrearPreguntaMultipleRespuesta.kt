@@ -55,15 +55,15 @@ class CrearPreguntaMultipleRespuesta : AppCompatActivity() {
         findViewById<Button>(R.id.button_crear).setOnClickListener { view ->
 
             if (checkboxes.childCount == 0) {
-                Toast.makeText(this, "Tienes que crear alguna una opcion", Toast.LENGTH_SHORT)
+                Toast.makeText(this, "Tienes que crear alguna una opcion", Toast.LENGTH_SHORT).show()
             } else if(CheckedCount(checkboxes) == 0){
-                Toast.makeText(this, "Tienes que crear elegir alguna opcion", Toast.LENGTH_SHORT)
+                Toast.makeText(this, "Tienes que crear elegir alguna opcion", Toast.LENGTH_SHORT).show()
             }else if(enunciado.text.toString() == "" || enunciado.text.toString() == "Enunciado"){
-                Toast.makeText(this, "Tienes que crear un enunciado adecuado", Toast.LENGTH_SHORT)
+                Toast.makeText(this, "Tienes que crear un enunciado adecuado", Toast.LENGTH_SHORT).show()
             }else {
                 var preguntas = SingletonMap["lista_preguntas"] as MutableList<CrearTest.Pregunta>
                 // TODO: poner un enunciado
-                preguntas.add(CrearTest.Pregunta(enunciado.text.toString(), "seleccion",
+                preguntas.add(CrearTest.Pregunta(enunciado.text.toString(), "multiple",
                     checkboxes.children.filter { it is CheckBox }.map {
                         val c = it as CheckBox
                         Pair(c.text.toString(), c.isChecked)
