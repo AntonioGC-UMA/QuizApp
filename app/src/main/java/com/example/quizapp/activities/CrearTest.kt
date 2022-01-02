@@ -180,9 +180,9 @@ class CrearTest : AppCompatActivity() {
             viewHolder.view.findViewById<LinearLayout>(R.id.layout_pregunta).setOnClickListener {
 
                 val intent = when (dataSet[position].tipo) {
-                    "seleccion" -> Intent(parent, CrearPreguntaSeleccion::class.java)
-                    "multiple" -> Intent(parent, CrearPreguntaMultipleRespuesta::class.java)
-                    "rellenar huecos" -> Intent(parent, CrearPreguntaRellenarHuecos::class.java)
+                    "seleccion" -> Intent(viewHolder.enunciado.context, CrearPreguntaSeleccion::class.java)
+                    "multiple" -> Intent(viewHolder.enunciado.context, CrearPreguntaMultipleRespuesta::class.java)
+                    "rellenar huecos" -> Intent(viewHolder.enunciado.context, CrearPreguntaRellenarHuecos::class.java)
                     else -> throw Exception("Que cojones?")
                 }
 
