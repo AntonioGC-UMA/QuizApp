@@ -61,7 +61,6 @@ class MyTestsFragment : Fragment() {
             startActivity(intent) }
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewMyTests)
-        val data = mutableListOf<String>()
         val user_id = FirebaseAuth.getInstance().currentUser?.uid.orEmpty()
         val user = Firebase.firestore.collection("usuarios").document(user_id)
 
