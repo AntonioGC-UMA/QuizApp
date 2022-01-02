@@ -2,6 +2,9 @@
     <string name="app_name">QuizApp</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="tests_done_title_fragment">Tests realizados</string>
+    <string name="aviso_crear_alguna_opcion">Tienes que crear alguna una opcion</string>
+    <string name="aviso_seleccionar_alguna_opcion">Tienes que seleccionar alguna una opcion</string>
+    <string name="aviso_enunciado_correcto">Tienes que crear un enunciado adecuado</string>
     <string name="my_tests_title_fragment">Mis tests</string>
     <string name="sample_tests_done">Tests realizados por ti</string>
     <string name="login_user_email">Introduce un email</string>
