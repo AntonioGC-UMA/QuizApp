@@ -121,8 +121,6 @@ class CrearTest : AppCompatActivity() {
                         ).show()
                     }
 
-                //Esto de aqui no funca pero la idea es que en el campo mis tests se añada una nueva entrada
-                // del tipo tests/id_del_test_que_acabas_de_crear...
                 val doc_id = FirebaseAuth.getInstance().currentUser?.uid.orEmpty()
                 val assign_to_user = Firebase.firestore.collection("usuarios").document(doc_id)
                 assign_to_user.update("mis tests", FieldValue.arrayUnion(new_test))

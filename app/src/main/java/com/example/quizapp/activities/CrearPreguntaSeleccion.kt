@@ -16,7 +16,7 @@ class CrearPreguntaSeleccion : AppCompatActivity() {
         val enunciado = findViewById<EditText>(R.id.enunciado_seleccion)
         findViewById<Button>(R.id.nueva_seleccion).setOnClickListener {
             if (texto.text.isEmpty()) {
-                Toast.makeText(this, "El texto no puede estar vacio", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.texto_no_vacio), Toast.LENGTH_SHORT).show()
             } else {
 
                 val t = texto.text.toString()
@@ -33,9 +33,9 @@ class CrearPreguntaSeleccion : AppCompatActivity() {
         }
         findViewById<Button>(R.id.crear_pregunta_conectar).setOnClickListener {
             if (radio_group.checkedRadioButtonId == -1) {
-                Toast.makeText(this, "Tienes que seleccionar una opcion", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.seleccionar_opcion), Toast.LENGTH_SHORT).show()
             } else if (enunciado.text.isEmpty()) {
-                Toast.makeText(this, "El enunciado no puede estar vacío", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.enunciado_no_vacio), Toast.LENGTH_SHORT).show()
             } else {
                 val preguntas = SingletonMap["lista_preguntas"] as MutableList<CrearTest.Pregunta>
                 preguntas.add(CrearTest.Pregunta(enunciado.text.toString(), "seleccion",

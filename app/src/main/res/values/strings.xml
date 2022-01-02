@@ -13,4 +13,9 @@
     <string name="txt_btn_add_respuesta_rellenar_huecos">Añadir respuestas</string>
     <string name="guardar_respuestas_rellenar_huecos">Guardar respuestas</string>
     <string name="aviso_rellenar_todos_los_huecos">Algunos huecos no están rellenos</string>
+    <string name="enunciado_no_vacio">El enunciado no puede estar vacío</string>
+    <string name="respuesta_rellenar_huecos">Escribe la respuesta </string>
+    <string name="texto_no_vacio">El texto no puede estar vacío</string>
+    <string name="seleccionar_opcion">Tienes que seleccionar una opción</string>
+
 </resources>

@@ -26,7 +26,7 @@ class CrearPreguntaRellenarHuecos : AppCompatActivity() {
 
         findViewById<Button>(R.id.btn_add_respuestas_rellenar_huecos).setOnClickListener { view ->
             if (texto.text.isEmpty()) {
-                Toast.makeText(this, "El enunciado no puede estar vacío", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.enunciado_no_vacio), Toast.LENGTH_SHORT).show()
             } else {
                 linear_layout_rellenar_huecos.removeAllViews()
                 respuestas_huecos.clear()
@@ -40,7 +40,7 @@ class CrearPreguntaRellenarHuecos : AppCompatActivity() {
                 for (i in 1..matches) {
                     val r = EditText(this)
                     r.layoutParams = layout_params
-                    r.hint = "Escribe la respuesta " + i
+                    r.hint = getString(R.string.respuesta_rellenar_huecos) + i
                     linear_layout_rellenar_huecos.addView(r)
                     respuestas_huecos.add(r)
                 }
@@ -68,7 +68,7 @@ class CrearPreguntaRellenarHuecos : AppCompatActivity() {
             }
             println(rellenos)
             if(!rellenos) {
-                Toast.makeText(context, "Algunos huecos no están rellenos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.aviso_rellenar_todos_los_huecos), Toast.LENGTH_SHORT).show()
             } else {
                 val preguntas = SingletonMap["lista_preguntas"] as MutableList<CrearTest.Pregunta>
                 preguntas.add(CrearTest.Pregunta(enunciado, "rellenar huecos",
