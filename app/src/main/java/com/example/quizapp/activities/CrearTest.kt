@@ -61,26 +61,26 @@ class CrearTest : AppCompatActivity() {
             if (preguntas.size < 3) {
                 Toast.makeText(
                     this,
-                    "Un test debe tener minimo 3 preguntas",
+                    getString(R.string.test_minimo_3_preguntas),
                     Toast.LENGTH_SHORT
                 ).show()
 
             } else if (tag_list.isEmpty()) {
                 Toast.makeText(
                     this,
-                    "Un test debe tener minimo una categoría",
+                    getString(R.string.test_minimo_1_categoria),
                     Toast.LENGTH_SHORT
                 ).show()
             } else if (titulo.isEmpty()) {
                 Toast.makeText(
                     this,
-                    "Un test debe tener un titulo",
+                    getString(R.string.test_minimo_1_titulo),
                     Toast.LENGTH_SHORT
                 ).show()
             } else if (descripcion.isEmpty()) {
                 Toast.makeText(
                     this,
-                    "Un test debe tener una descipcion",
+                    getString(R.string.test_minimo_1_descripcion),
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
@@ -108,7 +108,7 @@ class CrearTest : AppCompatActivity() {
                     .addOnSuccessListener {
                         Toast.makeText(
                             this,
-                            "Se ha creado el test correctamente",
+                            getString(R.string.test_creado_exito),
                             Toast.LENGTH_SHORT
                         ).show()
                         this.finish()
@@ -116,22 +116,18 @@ class CrearTest : AppCompatActivity() {
                     .addOnFailureListener {
                         Toast.makeText(
                             this,
-                            "No se ha podido guardar información sobre el ususario: " + it.message,
-                            Toast.LENGTH_SHORT
+                            getString(R.string.test_creado_fallo) + it.message,
+                            Toast.LENGTH_LONG
                         ).show()
                     }
 
                 val doc_id = FirebaseAuth.getInstance().currentUser?.uid.orEmpty()
                 val assign_to_user = Firebase.firestore.collection("usuarios").document(doc_id)
                 assign_to_user.update("mis tests", FieldValue.arrayUnion(new_test))
-                    .addOnSuccessListener { Toast.makeText(
-                        this,
-                        "Test asignado al usuario",
-                        Toast.LENGTH_SHORT
-                    ).show() }
+                    .addOnSuccessListener {  }
                     .addOnFailureListener { exception -> Toast.makeText(
                         this,
-                        "Error al asignar el test al usuario ${exception.message}",
+                        getString(R.string.test_asignado_fallo) + "${exception.message}",
                         Toast.LENGTH_SHORT
                     ).show() }
             }

@@ -26,13 +26,13 @@ private lateinit var databaseReference: DatabaseReference
         val password = passwordText?.text.toString().trim()
 
         if (email.isEmpty()) {
-            Toast.makeText(this, "El email no puede estár vacio", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.email_no_vacio), Toast.LENGTH_SHORT).show()
             return null
         }
         if (password.length < 6) {
             Toast.makeText(
                 this,
-                "La contraseña tiene que tener minimo 6 caracteres",
+                getString(R.string.pass_min_6),
                 Toast.LENGTH_SHORT
             ).show()
             return null
@@ -58,7 +58,7 @@ private lateinit var databaseReference: DatabaseReference
             readData()?.let { (email, password) ->
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnSuccessListener {
-                        Toast.makeText(this, "Autenticacion correcta", Toast.LENGTH_SHORT)
+                        Toast.makeText(this, getString(R.string.auth_correct), Toast.LENGTH_SHORT)
                             .show()
                         val intent = Intent(this, Home::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -67,7 +67,7 @@ private lateinit var databaseReference: DatabaseReference
                     .addOnFailureListener{ exception ->
                         Toast.makeText(
                             this,
-                            "Autenticacion fallida: ${exception.message}",
+                            getString(R.string.auth_fail) + " ${exception.message}",
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -79,7 +79,7 @@ private lateinit var databaseReference: DatabaseReference
             readData()?.let { (email, password) ->
                 auth.createUserWithEmailAndPassword(email, password)
                     .addOnSuccessListener {
-                        Toast.makeText(this, "Usuario creado con éxito", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, getString(R.string.usuario_creado_exito), Toast.LENGTH_SHORT).show()
                         val usuario = hashMapOf(
                             "foto perfil" to "url de la fotaca",
                             "logros" to arrayListOf("tonto", "feo"),
@@ -91,7 +91,7 @@ private lateinit var databaseReference: DatabaseReference
                             .set(usuario)
                             .addOnFailureListener { Toast.makeText(
                                 this,
-                                "No se ha podido guardar información sobre el ususario: " + it.message,
+                                getString(R.string.usuario_info_fail) + it.message,
                                 Toast.LENGTH_SHORT
                             ).show() }
                         val intent = Intent(this, Home::class.java)
@@ -101,7 +101,7 @@ private lateinit var databaseReference: DatabaseReference
                     .addOnFailureListener { exception ->
                         Toast.makeText(
                             baseContext,
-                            "Creación fallida: ${exception.message}",
+                            getString(R.string.creacion_fail) + " ${exception.message}",
                             Toast.LENGTH_LONG
                         ).show()
                     }
