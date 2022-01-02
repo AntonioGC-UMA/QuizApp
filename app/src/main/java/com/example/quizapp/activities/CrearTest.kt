@@ -33,7 +33,7 @@ class CrearTest : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_crear_test)
 
-        SingletonMap["lista_preguntas"] = preguntas
+
         findViewById<FloatingActionButton>(R.id.addQuestion).setOnClickListener {
             val intent = Intent(this, SeleccionarTipoDePregunta::class.java)
             startActivity(intent)
@@ -42,13 +42,49 @@ class CrearTest : AppCompatActivity() {
 
         val tags = findViewById<MultiAutoCompleteTextView>(R.id.multiAutoCompleteTextView)
 
-        val lista_tags = listOf("entretenimiento", "cultura", "ciencias", "matemáticas", "historia", "universidad", "animales", "arte", "fiestas", "deportes", "geografía", "juegos", "marcas", "música")
+        val lista_tags = listOf(
+            "entretenimiento",
+            "cultura",
+            "ciencias",
+            "matemáticas",
+            "historia",
+            "universidad",
+            "animales",
+            "arte",
+            "fiestas",
+            "deportes",
+            "geografía",
+            "juegos",
+            "marcas",
+            "música"
+        )
 
-        ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, lista_tags).also { adapter ->
+        ArrayAdapter(
+            this,
+            android.R.layout.simple_dropdown_item_1line,
+            lista_tags
+        ).also { adapter ->
             tags.setAdapter(adapter)
         }
         tags.setTokenizer(CommaTokenizer())
         tags.threshold = 0
+
+        val extras = intent.extras
+        if (extras != null) {
+            Firebase.firestore.collection("tests")
+                .document(extras.getString("id")!!).get().addOnSuccessListener { test ->
+                    tags.setText((test["categorias"] as List<String>).joinToString(", ", postfix = ", "), TextView.BufferType.EDITABLE)
+                    findViewById<EditText>(R.id.titulo).setText(test["titulo"] as String, TextView.BufferType.EDITABLE)
+                    findViewById<EditText>(R.id.descripcion).setText(test["descripcion"] as String, TextView.BufferType.EDITABLE)
+                    preguntas = (test["preguntas"] as List<HashMap<String,*>>).map { pregunta ->
+                        Pregunta(pregunta["enunciado"] as String, pregunta["tipo"] as String, (pregunta["opciones"] as List<HashMap<String, *>>).map { opcion ->
+                            Pair(opcion["respuesta"] as String, opcion["correcta"] as Boolean)
+                        })
+                    } as MutableList<Pregunta>
+                    actualizar_recicler_view()
+                }
+        }
+        SingletonMap["lista_preguntas"] = preguntas
 
         findViewById<Button>(R.id.cancelar).setOnClickListener {
             this.finish()
@@ -102,8 +138,13 @@ class CrearTest : AppCompatActivity() {
                         )
                     }
                 )
-                val new_test = Firebase.firestore.collection("tests")
-                    .document()
+                val new_test = if (extras != null) {
+                    Firebase.firestore.collection("tests")
+                        .document(extras.getString("id")!!)
+                } else {
+                    Firebase.firestore.collection("tests")
+                        .document()
+                }
                 new_test.set(test)
                     .addOnSuccessListener {
                         Toast.makeText(
@@ -124,12 +165,14 @@ class CrearTest : AppCompatActivity() {
                 val doc_id = FirebaseAuth.getInstance().currentUser?.uid.orEmpty()
                 val assign_to_user = Firebase.firestore.collection("usuarios").document(doc_id)
                 assign_to_user.update("mis tests", FieldValue.arrayUnion(new_test))
-                    .addOnSuccessListener {  }
-                    .addOnFailureListener { exception -> Toast.makeText(
-                        this,
-                        getString(R.string.test_asignado_fallo) + "${exception.message}",
-                        Toast.LENGTH_SHORT
-                    ).show() }
+                    .addOnSuccessListener { }
+                    .addOnFailureListener { exception ->
+                        Toast.makeText(
+                            this,
+                            getString(R.string.test_asignado_fallo) + "${exception.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
             }
 
 
@@ -152,10 +195,9 @@ class CrearTest : AppCompatActivity() {
     inner class CustomAdapter(private val dataSet: List<Pregunta>) :
         RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
-        inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             val tipo: TextView = view.findViewById(R.id.tipo)
             val enunciado: TextView = view.findViewById(R.id.enunciado)
-            val view: View = view
         }
 
         override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
@@ -176,9 +218,18 @@ class CrearTest : AppCompatActivity() {
             viewHolder.view.findViewById<LinearLayout>(R.id.layout_pregunta).setOnClickListener {
 
                 val intent = when (dataSet[position].tipo) {
-                    "seleccion" -> Intent(viewHolder.enunciado.context, CrearPreguntaSeleccion::class.java)
-                    "multiple" -> Intent(viewHolder.enunciado.context, CrearPreguntaMultipleRespuesta::class.java)
-                    "rellenar huecos" -> Intent(viewHolder.enunciado.context, CrearPreguntaRellenarHuecos::class.java)
+                    "seleccion" -> Intent(
+                        viewHolder.enunciado.context,
+                        CrearPreguntaSeleccion::class.java
+                    )
+                    "multiple" -> Intent(
+                        viewHolder.enunciado.context,
+                        CrearPreguntaMultipleRespuesta::class.java
+                    )
+                    "rellenar huecos" -> Intent(
+                        viewHolder.enunciado.context,
+                        CrearPreguntaRellenarHuecos::class.java
+                    )
                     else -> throw Exception("Que cojones?")
                 }
 

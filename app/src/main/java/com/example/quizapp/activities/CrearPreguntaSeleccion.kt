@@ -12,6 +12,7 @@ class CrearPreguntaSeleccion : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_crear_pregunta_seleccion)
 
+
         val texto = findViewById<EditText>(R.id.texto_seleccion)
         val radio_group = findViewById<RadioGroup>(R.id.radio_group)
         val enunciado = findViewById<EditText>(R.id.enunciado_seleccion)
@@ -33,13 +34,13 @@ class CrearPreguntaSeleccion : AppCompatActivity() {
             finish()
         }
 
-        val extras = getIntent().getExtras();
+        val extras = intent.extras
 
         if (extras != null) {
-            val value = extras.getInt("idx");
+            val value = extras.getInt("idx")
             val preguntas = SingletonMap["lista_preguntas"] as MutableList<CrearTest.Pregunta>
             enunciado.setText(preguntas[value].enunciado, TextView.BufferType.EDITABLE)
-            var checked = -1;
+            var checked = -1
             preguntas[value].opciones.forEachIndexed { index, o ->
                 val r = RadioButton(this)
                 r.text = o.first
@@ -54,7 +55,6 @@ class CrearPreguntaSeleccion : AppCompatActivity() {
                 } else if (enunciado.text.isEmpty()) {
                     Toast.makeText(this, getString(R.string.enunciado_no_vacio), Toast.LENGTH_SHORT).show()
                 } else {
-                    val preguntas = SingletonMap["lista_preguntas"] as MutableList<CrearTest.Pregunta>
                     preguntas[value] = CrearTest.Pregunta(enunciado.text.toString(), "seleccion",
                         radio_group.children.filter { it is RadioButton }.map {
                             val r = it as RadioButton
