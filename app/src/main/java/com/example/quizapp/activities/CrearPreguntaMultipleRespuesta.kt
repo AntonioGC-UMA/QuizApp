@@ -55,11 +55,12 @@ class CrearPreguntaMultipleRespuesta : AppCompatActivity() {
         findViewById<Button>(R.id.button_crear).setOnClickListener { view ->
 
             if (checkboxes.childCount == 0) {
-                Toast.makeText(this, "Tienes que crear alguna una opcion", Toast.LENGTH_SHORT).show()
+
+                Toast.makeText(this,getString(R.string.aviso_crear_alguna_opcion) , Toast.LENGTH_SHORT).show()
             } else if(CheckedCount(checkboxes) == 0){
-                Toast.makeText(this, "Tienes que crear elegir alguna opcion", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.aviso_seleccionar_alguna_opcion), Toast.LENGTH_SHORT).show()
             }else if(enunciado.text.toString() == "" || enunciado.text.toString() == "Enunciado"){
-                Toast.makeText(this, "Tienes que crear un enunciado adecuado", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.aviso_enunciado_correcto), Toast.LENGTH_SHORT).show()
             }else {
                 var preguntas = SingletonMap["lista_preguntas"] as MutableList<CrearTest.Pregunta>
                 // TODO: poner un enunciado
