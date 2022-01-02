@@ -1,5 +1,6 @@
 package com.example.quizapp.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quizapp.R
-import com.example.quizapp.adapters.CustomMyTestsAdapter
+import com.example.quizapp.activities.CrearTest
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
@@ -49,26 +50,21 @@ class DoneTestsFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_done_tests, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewMyTestsDone)
-        val data = arrayListOf<String>("Hola", "Pepe", "Pelo")
         val user_id = FirebaseAuth.getInstance().currentUser?.uid.orEmpty()
         val user = Firebase.firestore.collection("usuarios").document(user_id)
         user.get()
             .addOnSuccessListener { document ->
                 if (document != null) {
-                    val tests = document.data?.get("mis tests") as List<DocumentReference>
-                    for(t in tests){
-                        println(t.id)
-                        t.get().addOnSuccessListener { document -> println(document.data?.get("categoria")) }
-                    }
+                    val tests = document.data?.get("tests realizados") as List<DocumentReference>
+                    val adapter = CustomAdapter(tests.map { it.id })
+                    recyclerView.layoutManager = LinearLayoutManager(activity)
+                    recyclerView.adapter = adapter
                 } else {
                 }
             }
             .addOnFailureListener { exception ->
                println("algo")
             }
-        val adapter = CustomMyTestsAdapter(data)
-        recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = adapter
         return view
     }
 
@@ -90,5 +86,35 @@ class DoneTestsFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    // Esto es del recycler view
+    inner class CustomAdapter(private val dataSet: List<String>) :
+        RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+
+        inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+            val itemTitle : TextView = itemView.findViewById(R.id.test_name)
+            val itemDescription : TextView = itemView.findViewById(R.id.test_description)
+        }
+
+        override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
+            // Create a new view, which defines the UI of the list item
+            val view = LayoutInflater.from(viewGroup.context)
+                .inflate(R.layout.card_my_tests_layout, viewGroup, false)
+
+            return ViewHolder(view)
+        }
+
+        override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+            viewHolder.itemTitle.text = dataSet[position]
+            viewHolder.itemDescription.text = dataSet[position]
+            viewHolder.view.setOnClickListener{
+                val intent = Intent(viewHolder.view.context, CrearTest::class.java)
+                intent.putExtra("id", dataSet[position])
+                viewHolder.view.context.startActivity(intent)
+            }
+        }
+
+        override fun getItemCount() = dataSet.size
     }
 }

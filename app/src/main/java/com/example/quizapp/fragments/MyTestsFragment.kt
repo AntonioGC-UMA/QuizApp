@@ -6,19 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quizapp.R
-import com.example.quizapp.activities.CrearPreguntaMultipleRespuesta
-import com.example.quizapp.activities.CrearPreguntaRellenarHuecos
-import com.example.quizapp.activities.CrearPreguntaSeleccion
 import com.example.quizapp.activities.CrearTest
-import com.example.quizapp.adapters.CustomMyTestsAdapter
-import com.example.quizapp.entities.SingletonMap
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
@@ -61,7 +53,6 @@ class MyTestsFragment : Fragment() {
             startActivity(intent) }
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewMyTests)
-        val data = mutableListOf<String>()
         val user_id = FirebaseAuth.getInstance().currentUser?.uid.orEmpty()
         val user = Firebase.firestore.collection("usuarios").document(user_id)
 

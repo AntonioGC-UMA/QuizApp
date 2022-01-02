@@ -190,7 +190,6 @@ class CrearTest : AppCompatActivity() {
         super.onResume()
         actualizar_recicler_view()
     }
-
     // Esto es del recycler view
     inner class CustomAdapter(private val dataSet: List<Pregunta>) :
         RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
@@ -240,5 +239,6 @@ class CrearTest : AppCompatActivity() {
 
         override fun getItemCount() = dataSet.size
     }
+
 
 }
