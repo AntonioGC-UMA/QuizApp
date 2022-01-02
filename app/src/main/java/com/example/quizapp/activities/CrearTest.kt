@@ -48,7 +48,7 @@ class CrearTest : AppCompatActivity() {
             tags.setAdapter(adapter)
         }
         tags.setTokenizer(CommaTokenizer())
-        tags.threshold = 0;
+        tags.threshold = 0
 
         findViewById<Button>(R.id.cancelar).setOnClickListener {
             this.finish()
@@ -140,12 +140,16 @@ class CrearTest : AppCompatActivity() {
         }
     }
 
-    // usa esta funcion para actualizar la lista cuando se añadan nuevos elementos?
-    override fun onResume() {
-        super.onResume()
+    fun actualizar_recicler_view() {
         val recyclerView = findViewById<RecyclerView>(R.id.listaPreguntas)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = CustomAdapter(preguntas)
+    }
+
+    // usa esta funcion para actualizar la lista cuando se añadan nuevos elementos?
+    override fun onResume() {
+        super.onResume()
+        actualizar_recicler_view()
     }
 
     // Esto es del recycler view
@@ -155,6 +159,7 @@ class CrearTest : AppCompatActivity() {
         inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             val tipo: TextView = view.findViewById(R.id.tipo)
             val enunciado: TextView = view.findViewById(R.id.enunciado)
+            val view: View = view
         }
 
         override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
@@ -168,6 +173,22 @@ class CrearTest : AppCompatActivity() {
         override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
             viewHolder.tipo.text = dataSet[position].tipo
             viewHolder.enunciado.text = dataSet[position].enunciado
+            viewHolder.view.findViewById<Button>(R.id.boton_x).setOnClickListener {
+                (SingletonMap["lista_preguntas"] as MutableList<Pregunta>).removeAt(position)
+                actualizar_recicler_view()
+            }
+            viewHolder.view.findViewById<LinearLayout>(R.id.layout_pregunta).setOnClickListener {
+
+                val intent = when (dataSet[position].tipo) {
+                    "seleccion" -> Intent(parent, CrearPreguntaSeleccion::class.java)
+                    "multiple" -> Intent(parent, CrearPreguntaMultipleRespuesta::class.java)
+                    "rellenar huecos" -> Intent(parent, CrearPreguntaRellenarHuecos::class.java)
+                    else -> throw Exception("Que cojones?")
+                }
+
+                intent.putExtra("idx", position)
+                startActivity(intent)
+            }
         }
 
         override fun getItemCount() = dataSet.size
