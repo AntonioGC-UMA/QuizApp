@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_nav_bar"
-    app:startDestination="@id/myTestsFragment">
+    app:startDestination="@id/allTests">
 
     <fragment
         android:id="@+id/myTestsFragment"
@@ -15,4 +15,8 @@
         android:name="com.example.quizapp.fragments.DoneTestsFragment"
         android:label="Tests done"
         tools:layout="@layout/fragment_done_tests" />
+    <fragment
+        android:id="@+id/allTests"
+        android:name="com.example.quizapp.fragments.AllTests"
+        android:label="AllTests" />
 </navigation>

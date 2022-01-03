@@ -6,19 +6,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quizapp.R
 import com.example.quizapp.activities.CrearTest
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import java.util.ArrayList
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,10 +24,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [MyTestsFragment.newInstance] factory method to
+ * Use the [AllTests.newInstance] factory method to
  * create an instance of this fragment.
  */
-class MyTestsFragment : Fragment() {
+class AllTests : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -48,33 +45,19 @@ class MyTestsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val tests = arguments?.getStringArrayList(ARG_NAME)
-        val view = inflater.inflate(R.layout.fragment_my_tests, container, false)
-        val buttonCreateTest = view.findViewById<FloatingActionButton>(R.id.createTestButton)
-        buttonCreateTest.setOnClickListener {
-            val intent = Intent(activity, CrearTest::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(intent) }
-        val search = view.findViewById<SearchView>(R.id.search_my_tests)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewMyTests)
-        val user_id = FirebaseAuth.getInstance().currentUser?.uid.orEmpty()
-        val user = Firebase.firestore.collection("usuarios").document(user_id)
-        user.get()
-                .addOnSuccessListener { document ->
-                    if (document != null) {
-                        val tests = document.data?.get("mis tests") as List<DocumentReference>
-                        val adapter = CustomAdapter(tests.map { it.id })
-                        recyclerView.layoutManager = LinearLayoutManager(activity)
-                        recyclerView.adapter = adapter
-                    } else{
-                        println("else eee")
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    println("algo")
-                }
-
-        search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        val view = inflater.inflate(R.layout.fragment_all_tests, container, false)
+        val searchTests = view.findViewById<SearchView>(R.id.search_all_tests)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_all_tests)
+        Firebase.firestore.collection("tests").get()
+            .addOnSuccessListener { documents ->
+                val adapter = CustomAdapter(documents.map { it.id })
+                recyclerView.layoutManager = LinearLayoutManager(activity)
+                recyclerView.adapter = adapter
+            }
+            .addOnFailureListener { exception ->
+                println("algo")
+            }
+        searchTests.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String): Boolean {
                 return false
             }
@@ -82,18 +65,14 @@ class MyTestsFragment : Fragment() {
                 // task HERE
                 val query = query.split(", ").filter { it.isNotEmpty() }.distinct()
                 println(query)
-                if(query.count() > 0){ //Firebase.firestore.collection("tests").whereArrayContainsAny("categorias", query).get()
-                    user.get()
-                        .addOnSuccessListener {document ->
-                            if (document != null) {
-                                //TODO: Hay que ponerlo para que una vez tenga los tests del usuario los pueda filtrar
-                                val tests = document.data?.get("mis tests") as List<DocumentReference>
-                                val adapter = CustomAdapter(tests.map { it.id })
-                                recyclerView.layoutManager = LinearLayoutManager(activity)
-                                recyclerView.adapter = adapter
-                            } else{
-                                println("else eee")
-                            }
+                if(query.count() > 0){
+                    Firebase.firestore.collection("tests").whereArrayContainsAny("categorias", query).get()
+                        .addOnSuccessListener {documents ->
+                            val resultados = documents.map { it.id }
+                            println(resultados)
+                            val adapter = CustomAdapter(resultados)
+                            recyclerView.layoutManager = LinearLayoutManager(activity)
+                            recyclerView.adapter = adapter
                         }
                 }
                 return false
@@ -103,18 +82,23 @@ class MyTestsFragment : Fragment() {
     }
 
     companion object {
-        const val ARG_NAME = "tests"
-        fun newInstance(name: List<String>): MyTestsFragment {
-            val fragment = MyTestsFragment()
-            println(name)
-            val bundle = Bundle().apply {
-                putStringArrayList(ARG_NAME, name as ArrayList<String>)
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param param1 Parameter 1.
+         * @param param2 Parameter 2.
+         * @return A new instance of fragment AllTests.
+         */
+        // TODO: Rename and change types and number of parameters
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+            AllTests().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)
+                }
             }
-
-            fragment.arguments = bundle
-
-            return fragment
-        }
     }
 
     // Esto es del recycler view
@@ -138,9 +122,10 @@ class MyTestsFragment : Fragment() {
             viewHolder.itemTitle.text = dataSet[position]
             viewHolder.itemDescription.text = dataSet[position]
             viewHolder.view.setOnClickListener{
-                val intent = Intent(viewHolder.view.context, CrearTest::class.java)
+                /*val intent = Intent(viewHolder.view.context, CrearTest::class.java)
                 intent.putExtra("id", dataSet[position])
-                viewHolder.view.context.startActivity(intent)
+                viewHolder.view.context.startActivity(intent)*/
+                //TODO: Abrir una activity para hacer el test
             }
         }
 

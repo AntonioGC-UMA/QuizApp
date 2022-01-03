@@ -2,11 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/allTestsFragment"
+        android:title="@string/tests_title_fragment"
+        android:icon="@drawable/ic_all_tests"/>
+    <item
         android:id="@+id/myTestsFragment"
-        android:title="My tests"
+        android:title="@string/my_tests_title_fragment"
         android:icon="@drawable/ic_my_tests"/>
     <item
         android:id="@id/doneTestsFragment"
-        android:title="Tests done"
+        android:title="@string/tests_done_title_fragment"
         android:icon="@drawable/ic_tests_done"/>
 </menu>

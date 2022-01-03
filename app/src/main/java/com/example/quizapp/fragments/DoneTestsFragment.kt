@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -50,6 +51,7 @@ class DoneTestsFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_done_tests, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewMyTestsDone)
+        val search = view.findViewById<SearchView>(R.id.search_done_tests)
         val user_id = FirebaseAuth.getInstance().currentUser?.uid.orEmpty()
         val user = Firebase.firestore.collection("usuarios").document(user_id)
         user.get()
@@ -65,6 +67,32 @@ class DoneTestsFragment : Fragment() {
             .addOnFailureListener { exception ->
                println("algo")
             }
+
+        search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+            override fun onQueryTextSubmit(query: String): Boolean {
+                // task HERE
+                val query = query.split(", ").filter { it.isNotEmpty() }.distinct()
+                println(query)
+                if(query.count() > 0){ //Firebase.firestore.collection("tests").whereArrayContainsAny("categorias", query).get()
+                    user.get()
+                        .addOnSuccessListener {document ->
+                            if (document != null) {
+                                //TODO: Hay que ponerlo para que una vez tenga los tests del usuario los pueda filtrar
+                                val tests = document.data?.get("tests realizados") as List<DocumentReference>
+                                val adapter = CustomAdapter(tests.map { it.id })
+                                recyclerView.layoutManager = LinearLayoutManager(activity)
+                                recyclerView.adapter = adapter
+                            } else{
+                                println("else eee")
+                            }
+                        }
+                }
+                return false
+            }
+        })
         return view
     }
 
@@ -109,9 +137,11 @@ class DoneTestsFragment : Fragment() {
             viewHolder.itemTitle.text = dataSet[position]
             viewHolder.itemDescription.text = dataSet[position]
             viewHolder.view.setOnClickListener{
-                val intent = Intent(viewHolder.view.context, CrearTest::class.java)
+                /*val intent = Intent(viewHolder.view.context, CrearTest::class.java)
                 intent.putExtra("id", dataSet[position])
                 viewHolder.view.context.startActivity(intent)
+                */
+                 //TODO: Abrir una activity para rehacer el test
             }
         }
 
