@@ -12,8 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quizapp.R
 import com.example.quizapp.activities.CrearTest
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -49,10 +51,11 @@ class AllTests : Fragment() {
         val searchTests = view.findViewById<SearchView>(R.id.search_all_tests)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_all_tests)
         Firebase.firestore.collection("tests").get()
-            .addOnSuccessListener { documents ->
-                val adapter = CustomAdapter(documents.map { it.id })
+            .addOnSuccessListener { documents ->//documents.documents devuelve la lista de document snapshot
+                val adapter = CustomAdapter(documents.documents)
                 recyclerView.layoutManager = LinearLayoutManager(activity)
                 recyclerView.adapter = adapter
+
             }
         searchTests.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String): Boolean {
@@ -64,8 +67,7 @@ class AllTests : Fragment() {
                 if(query.count() > 0){
                     Firebase.firestore.collection("tests").whereArrayContainsAny("categorias", query).get()
                         .addOnSuccessListener {documents ->
-                            val resultados = documents.map { it.id }
-                            val adapter = CustomAdapter(resultados)
+                            val adapter = CustomAdapter(documents.documents)
                             recyclerView.layoutManager = LinearLayoutManager(activity)
                             recyclerView.adapter = adapter
                         }
@@ -97,7 +99,7 @@ class AllTests : Fragment() {
     }
 
     // Esto es del recycler view
-    inner class CustomAdapter(private val dataSet: List<String>) :
+    inner class CustomAdapter(private val dataSet: List<DocumentSnapshot>) :
         RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
         inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -114,8 +116,8 @@ class AllTests : Fragment() {
         }
 
         override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-            viewHolder.itemTitle.text = dataSet[position]
-            viewHolder.itemDescription.text = dataSet[position]
+            viewHolder.itemTitle.text = dataSet[position].get("titulo") as String
+            viewHolder.itemDescription.text = dataSet[position].get("descripcion") as String
             viewHolder.view.setOnClickListener{
                 /*val intent = Intent(viewHolder.view.context, CrearTest::class.java)
                 intent.putExtra("id", dataSet[position])
