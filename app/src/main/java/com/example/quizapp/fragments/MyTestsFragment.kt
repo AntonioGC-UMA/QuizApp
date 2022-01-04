@@ -78,9 +78,13 @@ class MyTestsFragment : Fragment() {
                 .addOnSuccessListener { document ->
                     if (document != null) {
                         val tests = document.data?.get("mis tests") as List<DocumentReference>
-                        val adapter = CustomAdapter(tests.map { it.id })
-                        recyclerView.layoutManager = LinearLayoutManager(activity)
-                        recyclerView.adapter = adapter
+                        val tasks = tests.map { it.get() }
+                        Tasks.whenAllSuccess<DocumentSnapshot>(tasks)
+                            .addOnSuccessListener{ list -> //Do what you need to do with your list
+                                val adapter = CustomAdapter(list)
+                                recyclerView.layoutManager = LinearLayoutManager(activity)
+                                recyclerView.adapter = adapter
+                            }
                     }
                 }
 
@@ -92,55 +96,21 @@ class MyTestsFragment : Fragment() {
                 // task HERE
                 val query = query.split(", ").filter { it.isNotEmpty() }.distinct()
                 println(query)
-                if(query.count() > 0){ //Firebase.firestore.collection("tests").whereArrayContainsAny("categorias", query).get()
-                    val firebaseUser = FirebaseAuth.getInstance().currentUser
-                    if (firebaseUser != null) {
-                        val uid = firebaseUser.uid
-                        Firebase.firestore.collection("usuarios").document(uid).get()
-                            .addOnCompleteListener(OnCompleteListener<DocumentSnapshot?> { task ->
-                                if (task.isSuccessful) {
-                                    val document = task.getResult()
-                                    if (document != null) {
-                                        if (document.exists()) {
-                                            val list = document["mis tests"] as List<DocumentReference>?
-                                            val tasks = mutableListOf<Task<DocumentSnapshot>>()
-                                            for (documentReference in list!!) {
-                                                val documentSnapshotTask: Task<DocumentSnapshot> =
-                                                    documentReference.get()
-                                                tasks.add(documentSnapshotTask)
-                                            }
-                                            Tasks.whenAllSuccess<Task<List<Any>>>(tasks)
-                                                .addOnSuccessListener{ list -> //Do what you need to do with your list
-                                                    println(list)
-                                                    /*for (obj in list) {
-                                                        //println("TAG " + (obj as DocumentSnapshot).data?.get("descripcion"))
-                                                        println("TAG " + obj)
-                                                    }*/
-                                                }
-                                        }
+                if(query.count() > 0){
+                    Firebase.firestore.collection("usuarios").document(user_id)
+                        .get().addOnSuccessListener { documento ->
+                            val tests = documento.get("mis tests") as List<DocumentReference>
+                            val tasks = tests.map { it.get() }
+                            Tasks.whenAllSuccess<DocumentSnapshot>(tasks)
+                                .addOnSuccessListener{ list -> //Do what you need to do with your list
+                                    val lista_filtrada = list.filter {
+                                        (it.get("categorias") as List<String>).containsAll(query)
                                     }
+                                    val adapter = CustomAdapter(lista_filtrada)
+                                    recyclerView.layoutManager = LinearLayoutManager(activity)
+                                    recyclerView.adapter = adapter
                                 }
-                            })
-                    }
-
-
-
-
-                    /*
-                    val coleccion = Firebase.firestore.collection("usuarios").document(user_id).collection("mis tests")
-
-                    println(coleccion.path)
-                    coleccion.whereArrayContainsAny("categorias", query).get()
-                        .addOnSuccessListener {//TODO: Hay que ponerlo para que una vez tenga los tests del usuario los pueda filtrar
-                                documents ->
-                            val resultados = documents.map { it.id }
-                            println(resultados)
-                            val adapter = CustomAdapter(resultados)
-                            recyclerView.layoutManager = LinearLayoutManager(activity)
-                            recyclerView.adapter = adapter
                         }
-
-                     */
                 }
                 return false
             }
@@ -164,7 +134,7 @@ class MyTestsFragment : Fragment() {
     }
 
     // Esto es del recycler view
-    inner class CustomAdapter(private val dataSet: List<String>) :
+    inner class CustomAdapter(private val dataSet: List<DocumentSnapshot>) :
         RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
         inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -181,11 +151,11 @@ class MyTestsFragment : Fragment() {
         }
 
         override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-            viewHolder.itemTitle.text = dataSet[position]
-            viewHolder.itemDescription.text = dataSet[position]
+            viewHolder.itemTitle.text = dataSet[position].get("titulo") as String
+            viewHolder.itemDescription.text = dataSet[position].get("descripcion") as String
             viewHolder.view.setOnClickListener{
                 val intent = Intent(viewHolder.view.context, CrearTest::class.java)
-                intent.putExtra("id", dataSet[position])
+                intent.putExtra("id", dataSet[position].id)
                 viewHolder.view.context.startActivity(intent)
             }
         }
