@@ -66,12 +66,7 @@ class MyTestsFragment : Fragment() {
                         val adapter = CustomAdapter(tests.map { it.id })
                         recyclerView.layoutManager = LinearLayoutManager(activity)
                         recyclerView.adapter = adapter
-                    } else{
-                        println("else eee")
                     }
-                }
-                .addOnFailureListener { exception ->
-                    println("algo")
                 }
 
         search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {

@@ -37,4 +37,5 @@
     <string name="enunciado_pregunta">Enunciado de la pregunta</string>
     <string name="buscar_por_categoria">Buscar por categoría, ej: cultura</string>
     <string name="tests_title_fragment">Tests</string>
+    <string name="pregunta_guardada">Pregunta añadida</string>
 </resources>

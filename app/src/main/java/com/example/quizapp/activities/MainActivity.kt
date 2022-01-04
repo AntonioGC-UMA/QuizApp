@@ -1,5 +1,7 @@
 package com.example.quizapp.activities
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -20,21 +22,31 @@ class MainActivity : AppCompatActivity() {
 private lateinit var databaseReference: DatabaseReference
     var emailText : EditText? = null
     var passwordText : EditText? = null
+    val dialogClickListener =
+        DialogInterface.OnClickListener { dialog, which ->
+            when (which) {
+                DialogInterface.BUTTON_POSITIVE -> {
+                }
+            }
+        }
 
+    val builder = AlertDialog.Builder(this)
     fun readData() : Pair<String, String>? {
         val email = emailText?.text.toString().trim()
         val password = passwordText?.text.toString().trim()
 
         if (email.isEmpty()) {
-            Toast.makeText(this, getString(R.string.email_no_vacio), Toast.LENGTH_SHORT).show()
+            builder.setMessage(getString(R.string.email_no_vacio)).setPositiveButton("OK", dialogClickListener).show()
+            //Toast.makeText(this, getString(R.string.email_no_vacio), Toast.LENGTH_SHORT).show()
             return null
         }
         if (password.length < 6) {
-            Toast.makeText(
+            builder.setMessage(getString(R.string.pass_min_6)).setPositiveButton("OK", dialogClickListener).show()
+            /*Toast.makeText(
                 this,
                 getString(R.string.pass_min_6),
                 Toast.LENGTH_SHORT
-            ).show()
+            ).show()*/
             return null
         }
 
@@ -65,11 +77,12 @@ private lateinit var databaseReference: DatabaseReference
                         startActivity(intent)
                     }
                     .addOnFailureListener{ exception ->
-                        Toast.makeText(
-                            this,
-                            getString(R.string.auth_fail) + " ${exception.message}",
-                            Toast.LENGTH_LONG
-                        ).show()
+                        builder.setMessage(getString(R.string.auth_fail) + " ${exception.message}").setPositiveButton("OK", dialogClickListener).show()
+                        /* Toast.makeText(
+                             this,
+                             getString(R.string.auth_fail) + " ${exception.message}",
+                             Toast.LENGTH_LONG
+                         ).show()*/
                     }
                 }
 
@@ -89,21 +102,25 @@ private lateinit var databaseReference: DatabaseReference
                         bd.collection("usuarios")
                             .document(auth.currentUser?.uid.orEmpty())
                             .set(usuario)
-                            .addOnFailureListener { Toast.makeText(
+                            .addOnFailureListener {
+                                builder.setMessage(getString(R.string.usuario_info_fail) + it.message).setPositiveButton("OK", dialogClickListener).show()
+                                /*Toast.makeText(
                                 this,
                                 getString(R.string.usuario_info_fail) + it.message,
                                 Toast.LENGTH_SHORT
-                            ).show() }
+                            ).show()*/ }
                         val intent = Intent(this, Home::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         startActivity(intent)
                     }
                     .addOnFailureListener { exception ->
-                        Toast.makeText(
+                        builder.setMessage(getString(R.string.creacion_fail) + " ${exception.message}").setPositiveButton("OK", dialogClickListener).show()
+
+                        /*Toast.makeText(
                             baseContext,
                             getString(R.string.creacion_fail) + " ${exception.message}",
                             Toast.LENGTH_LONG
-                        ).show()
+                        ).show()*/
                     }
                 }
         }
