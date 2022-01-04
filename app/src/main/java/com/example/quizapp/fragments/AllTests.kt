@@ -54,9 +54,6 @@ class AllTests : Fragment() {
                 recyclerView.layoutManager = LinearLayoutManager(activity)
                 recyclerView.adapter = adapter
             }
-            .addOnFailureListener { exception ->
-                println("algo")
-            }
         searchTests.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String): Boolean {
                 return false
@@ -64,12 +61,10 @@ class AllTests : Fragment() {
             override fun onQueryTextSubmit(query: String): Boolean {
                 // task HERE
                 val query = query.split(", ").filter { it.isNotEmpty() }.distinct()
-                println(query)
                 if(query.count() > 0){
                     Firebase.firestore.collection("tests").whereArrayContainsAny("categorias", query).get()
                         .addOnSuccessListener {documents ->
                             val resultados = documents.map { it.id }
-                            println(resultados)
                             val adapter = CustomAdapter(resultados)
                             recyclerView.layoutManager = LinearLayoutManager(activity)
                             recyclerView.adapter = adapter

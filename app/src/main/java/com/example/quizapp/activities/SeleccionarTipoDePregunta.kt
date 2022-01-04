@@ -12,27 +12,18 @@ class SeleccionarTipoDePregunta : AppCompatActivity() {
         setContentView(R.layout.activity_seleccionar_tipo_de_pregunta)
 
         findViewById<Button>(R.id.seleccion).setOnClickListener { view ->
-            println("Seleccion")
-
             val intent = Intent(this, CrearPreguntaSeleccion::class.java)
             startActivity(intent)
-
             this.finish()
         }
         findViewById<Button>(R.id.multipleRespuesta).setOnClickListener { view ->
-            println("Multiple respuesta")
-
             val intent = Intent(this, CrearPreguntaMultipleRespuesta::class.java)
             startActivity(intent)
-
             this.finish()
         }
         findViewById<Button>(R.id.rellenar_huecos).setOnClickListener { view ->
-            println("Rellenar huecos")
-
             val intent = Intent(this, CrearPreguntaRellenarHuecos::class.java)
             startActivity(intent)
-
             this.finish()
         }
     }

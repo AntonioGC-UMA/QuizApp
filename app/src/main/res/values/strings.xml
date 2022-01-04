@@ -47,7 +47,5 @@
     <string name="tipo_seleccion">Selección</string>
     <string name="tipo_multiple">Múltiple Respuesta</string>
     <string name="tipo_rellenar">Rellenar Huecos</string>
-
-
-
+    <string name="pregunta_guardada">Pregunta añadida</string>
 </resources>

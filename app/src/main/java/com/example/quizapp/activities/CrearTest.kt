@@ -1,5 +1,6 @@
 package com.example.quizapp.activities
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-
+import android.content.DialogInterface
 
 class CrearTest : AppCompatActivity() {
     private var preguntas = mutableListOf<Pregunta>()
@@ -90,35 +91,49 @@ class CrearTest : AppCompatActivity() {
             this.finish()
         }
 
+        val dialogClickListener =
+            DialogInterface.OnClickListener { dialog, which ->
+                when (which) {
+                    DialogInterface.BUTTON_POSITIVE -> {
+                    }
+                }
+            }
+
+        val builder = AlertDialog.Builder(this)
+
         findViewById<Button>(R.id.crear).setOnClickListener {
             val titulo = findViewById<EditText>(R.id.titulo).text
             val descripcion = findViewById<EditText>(R.id.descripcion).text
             val tag_list = tags.text.toString().split(", ").filter { it.isNotEmpty() }.distinct()
             if (preguntas.size < 3) {
-                Toast.makeText(
+                builder.setMessage(getString(R.string.test_minimo_3_preguntas)).setPositiveButton("OK", dialogClickListener).show()
+                /*Toast.makeText(
                     this,
                     getString(R.string.test_minimo_3_preguntas),
                     Toast.LENGTH_SHORT
-                ).show()
+                ).show()*/
 
             } else if (tag_list.isEmpty()) {
-                Toast.makeText(
+                builder.setMessage(getString(R.string.test_minimo_1_categoria)).setPositiveButton("OK", dialogClickListener).show()
+                /*Toast.makeText(
                     this,
                     getString(R.string.test_minimo_1_categoria),
                     Toast.LENGTH_SHORT
-                ).show()
+                ).show()*/
             } else if (titulo.isEmpty()) {
-                Toast.makeText(
+                builder.setMessage(getString(R.string.test_minimo_1_titulo)).setPositiveButton("OK", dialogClickListener).show()
+                /*Toast.makeText(
                     this,
                     getString(R.string.test_minimo_1_titulo),
                     Toast.LENGTH_SHORT
-                ).show()
+                ).show()*/
             } else if (descripcion.isEmpty()) {
-                Toast.makeText(
+                builder.setMessage(getString(R.string.test_minimo_1_descripcion)).setPositiveButton("OK", dialogClickListener).show()
+                /*Toast.makeText(
                     this,
                     getString(R.string.test_minimo_1_descripcion),
                     Toast.LENGTH_SHORT
-                ).show()
+                ).show()*/
             } else {
                 val test = hashMapOf(
                     "categorias" to tag_list,
@@ -155,11 +170,12 @@ class CrearTest : AppCompatActivity() {
                         this.finish()
                     }
                     .addOnFailureListener {
-                        Toast.makeText(
+                        builder.setMessage(getString(R.string.test_creado_fallo) + it.message).setPositiveButton("OK", dialogClickListener).show()
+                        /*Toast.makeText(
                             this,
                             getString(R.string.test_creado_fallo) + it.message,
                             Toast.LENGTH_LONG
-                        ).show()
+                        ).show()*/
                     }
 
                 val doc_id = FirebaseAuth.getInstance().currentUser?.uid.orEmpty()
@@ -167,11 +183,12 @@ class CrearTest : AppCompatActivity() {
                 assign_to_user.update("mis tests", FieldValue.arrayUnion(new_test))
                     .addOnSuccessListener { }
                     .addOnFailureListener { exception ->
-                        Toast.makeText(
+                        builder.setMessage(getString(R.string.test_asignado_fallo) + "${exception.message}").setPositiveButton("OK", dialogClickListener).show()
+                        /*Toast.makeText(
                             this,
                             getString(R.string.test_asignado_fallo) + "${exception.message}",
                             Toast.LENGTH_SHORT
-                        ).show()
+                        ).show()*/
                     }
             }
 
@@ -229,7 +246,7 @@ class CrearTest : AppCompatActivity() {
                         viewHolder.enunciado.context,
                         CrearPreguntaRellenarHuecos::class.java
                     )
-                    else -> throw Exception("Que cojones?")
+                    else -> throw Exception("Program crashed")
                 }
 
                 intent.putExtra("idx", position)

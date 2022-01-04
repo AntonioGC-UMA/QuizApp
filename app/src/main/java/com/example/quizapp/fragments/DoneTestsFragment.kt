@@ -64,9 +64,6 @@ class DoneTestsFragment : Fragment() {
                 } else {
                 }
             }
-            .addOnFailureListener { exception ->
-               println("algo")
-            }
 
         search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String): Boolean {

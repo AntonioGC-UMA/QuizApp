@@ -23,7 +23,7 @@ class Home : AppCompatActivity() {
         toolbar = supportActionBar
         bottomNavigationView =
             findViewById<View>(R.id.homeMenuNavigationView) as BottomNavigationView
-        bottomNavigationView!!.setOnNavigationItemSelectedListener(navigationItemSelectedListener)
+        bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener)
         toolbar?.title = "QuizApp"
 
         loadFragment(AllTests())
