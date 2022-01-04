@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".activities.Home">
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
+   <!-- <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/homeMenuNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,9 +15,39 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/home_menu" />
+        app:menu="@menu/home_menu" >
 
-    <fragment
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+    -->
+
+    <FrameLayout
+        android:id="@+id/frame_layout"
+        android:layout_width="416dp"
+        android:layout_height="618dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintBottom_toTopOf="@+id/homeMenuNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+    </FrameLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/homeMenuNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:itemIconTint="@drawable/nav_item_color"
+        app:itemTextColor="@drawable/nav_item_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/home_menu">
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+    <!--<fragment
         android:id="@+id/fragmentContainerView"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="0dp"
@@ -25,9 +55,12 @@
         app:defaultNavHost="true"
         app:layout_constraintBottom_toTopOf="@+id/homeMenuNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@+id/searchTest"
+        app:layout_constraintVertical_bias="1.0"
         app:navGraph="@navigation/home_nav_bar" />
+-->
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

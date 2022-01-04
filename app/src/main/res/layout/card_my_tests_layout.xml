@@ -7,50 +7,40 @@
     android:layout_marginLeft="25dp"
     android:layout_marginTop="25dp"
     android:layout_marginRight="25dp"
-    cardView:cardBackgroundColor="#227C9D"
+    cardView:cardBackgroundColor="@color/purple_200"
     cardView:cardCornerRadius="20dp"
     cardView:cardElevation="6dp"
     cardView:contentPadding="4dp">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="88dp"
+        android:layout_marginTop="0dp"
         android:padding="16dp">
-
-        <ImageView
-            android:id="@id/item_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp" />
-
-        <TextView
-            android:id="@+id/test_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginTop="39dp"
-            android:layout_toEndOf="@+id/item_image"
-            android:layout_toRightOf="@+id/item_image"
-            android:textColor="@color/white"
-            android:textSize="30sp"
-            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/test_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/test_name"
-            android:layout_below="@id/test_description"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
             android:layout_marginStart="0dp"
-            android:layout_marginLeft="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/test_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
-            android:layout_marginBottom="-58dp"
-            android:layout_toEndOf="@+id/item_image"
-            android:layout_toRightOf="@+id/item_image"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:layout_marginEnd="0dp"
+            android:text="TextView" />
     </RelativeLayout>
 
 

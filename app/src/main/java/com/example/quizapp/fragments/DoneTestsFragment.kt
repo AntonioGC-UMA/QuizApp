@@ -77,17 +77,15 @@ class DoneTestsFragment : Fragment() {
                 val query = query.split(", ").filter { it.isNotEmpty() }.distinct()
                 println(query)
                 if(query.count() > 0){ //Firebase.firestore.collection("tests").whereArrayContainsAny("categorias", query).get()
-                    user.get()
-                        .addOnSuccessListener {document ->
-                            if (document != null) {
-                                //TODO: Hay que ponerlo para que una vez tenga los tests del usuario los pueda filtrar
-                                val tests = document.data?.get("tests realizados") as List<DocumentReference>
-                                val adapter = CustomAdapter(tests.map { it.id })
-                                recyclerView.layoutManager = LinearLayoutManager(activity)
-                                recyclerView.adapter = adapter
-                            } else{
-                                println("else eee")
-                            }
+                    Firebase.firestore.collection("usuarios").document(user_id).collection("tests realizados")
+                        .whereArrayContainsAny("categorias", query).get()
+                        .addOnSuccessListener {//TODO: Hay que ponerlo para que una vez tenga los tests del usuario los pueda filtrar
+                            documents ->
+                            val resultados = documents.map { it.id }
+                            println(resultados)
+                            val adapter = CustomAdapter(resultados)
+                            recyclerView.layoutManager = LinearLayoutManager(activity)
+                            recyclerView.adapter = adapter
                         }
                 }
                 return false
