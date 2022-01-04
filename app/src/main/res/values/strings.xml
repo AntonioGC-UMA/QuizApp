@@ -25,7 +25,7 @@
     <string name="auth_correct">Autenticacion correcta</string>
     <string name="auth_fail">Autenticacion fallida</string>
     <string name="usuario_creado_exito">Usuario creado con éxito</string>
-    <string name="usuario_info_fail">No se ha podido guardar información sobre el ususario:</string>
+    <string name="usuario_info_fail">No se ha podido guardar información sobre el usuario:</string>
     <string name="creacion_fail">Creación fallida:</string>
     <string name="test_minimo_3_preguntas">Un test debe tener minimo 3 preguntas</string>
     <string name="test_minimo_1_categoria">Un test debe tener minimo una categoría</string>
