@@ -2,12 +2,12 @@ package com.example.quizapp.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quizapp.R
@@ -24,24 +24,20 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [DoneTestsFragment.newInstance] factory method to
+ * Use the [AllTests.newInstance] factory method to
  * create an instance of this fragment.
  */
-class DoneTestsFragment : Fragment() {
-    val auth = FirebaseAuth.getInstance()
-    val user = auth.currentUser
+class AllTests : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    var textTestsDone : TextView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-
-
     }
 
     override fun onCreateView(
@@ -49,37 +45,26 @@ class DoneTestsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_done_tests, container, false)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewMyTestsDone)
-        val search = view.findViewById<SearchView>(R.id.search_done_tests)
-        val user_id = FirebaseAuth.getInstance().currentUser?.uid.orEmpty()
-        val user = Firebase.firestore.collection("usuarios").document(user_id)
-        user.get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    val tests = document.data?.get("tests realizados") as List<DocumentReference>
-                    val adapter = CustomAdapter(tests.map { it.id })
-                    recyclerView.layoutManager = LinearLayoutManager(activity)
-                    recyclerView.adapter = adapter
-                } else {
-                }
+        val view = inflater.inflate(R.layout.fragment_all_tests, container, false)
+        val searchTests = view.findViewById<SearchView>(R.id.search_all_tests)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_all_tests)
+        Firebase.firestore.collection("tests").get()
+            .addOnSuccessListener { documents ->
+                val adapter = CustomAdapter(documents.map { it.id })
+                recyclerView.layoutManager = LinearLayoutManager(activity)
+                recyclerView.adapter = adapter
             }
-
-        search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        searchTests.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String): Boolean {
                 return false
             }
             override fun onQueryTextSubmit(query: String): Boolean {
                 // task HERE
                 val query = query.split(", ").filter { it.isNotEmpty() }.distinct()
-                println(query)
-                if(query.count() > 0){ //Firebase.firestore.collection("tests").whereArrayContainsAny("categorias", query).get()
-                    Firebase.firestore.collection("usuarios").document(user_id).collection("tests realizados")
-                        .whereArrayContainsAny("categorias", query).get()
-                        .addOnSuccessListener {//TODO: Hay que ponerlo para que una vez tenga los tests del usuario los pueda filtrar
-                            documents ->
+                if(query.count() > 0){
+                    Firebase.firestore.collection("tests").whereArrayContainsAny("categorias", query).get()
+                        .addOnSuccessListener {documents ->
                             val resultados = documents.map { it.id }
-                            println(resultados)
                             val adapter = CustomAdapter(resultados)
                             recyclerView.layoutManager = LinearLayoutManager(activity)
                             recyclerView.adapter = adapter
@@ -98,12 +83,12 @@ class DoneTestsFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment DoneTestsFragment.
+         * @return A new instance of fragment AllTests.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            DoneTestsFragment().apply {
+            AllTests().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
@@ -134,9 +119,8 @@ class DoneTestsFragment : Fragment() {
             viewHolder.view.setOnClickListener{
                 /*val intent = Intent(viewHolder.view.context, CrearTest::class.java)
                 intent.putExtra("id", dataSet[position])
-                viewHolder.view.context.startActivity(intent)
-                */
-                 //TODO: Abrir una activity para rehacer el test
+                viewHolder.view.context.startActivity(intent)*/
+                //TODO: Abrir una activity para hacer el test
             }
         }
 

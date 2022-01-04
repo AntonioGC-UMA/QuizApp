@@ -25,7 +25,7 @@
     <string name="auth_correct">Autenticacion correcta</string>
     <string name="auth_fail">Autenticacion fallida</string>
     <string name="usuario_creado_exito">Usuario creado con éxito</string>
-    <string name="usuario_info_fail">No se ha podido guardar información sobre el ususario:</string>
+    <string name="usuario_info_fail">No se ha podido guardar información sobre el usuario:</string>
     <string name="creacion_fail">Creación fallida:</string>
     <string name="test_minimo_3_preguntas">Un test debe tener minimo 3 preguntas</string>
     <string name="test_minimo_1_categoria">Un test debe tener minimo una categoría</string>
@@ -35,4 +35,17 @@
     <string name="test_creado_fallo">Ha habido un error al crear el test: </string>
     <string name="test_asignado_fallo">Ha habido un error al asignar el test: </string>
     <string name="enunciado_pregunta">Enunciado de la pregunta</string>
+    <string name="buscar_por_categoria">Buscar por categoría, ej: cultura</string>
+    <string name="tests_title_fragment">Tests</string>
+    <string name="button_anadir">Añadir</string>
+    <string name="button_cancelar">Cancelar</string>
+    <string name="button_crear">Crear</string>
+    <string name="hint_opcion">Opción</string>
+    <string name="hint_categoria">Categoria</string>
+    <string name="hint_descripcion">Descripción</string>
+    <string name="registrar">Registrar</string>
+    <string name="tipo_seleccion">Selección</string>
+    <string name="tipo_multiple">Múltiple Respuesta</string>
+    <string name="tipo_rellenar">Rellenar Huecos</string>
+    <string name="pregunta_guardada">Pregunta añadida</string>
 </resources>

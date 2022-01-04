@@ -1,6 +1,8 @@
 package com.example.quizapp.activities
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -21,6 +23,16 @@ class CrearPreguntaRellenarHuecos : AppCompatActivity() {
         val texto = findViewById<EditText>(R.id.respuesta_enunciado)
         linear_layout_rellenar_huecos = findViewById(R.id.respuestas_rellenar_huecos)
         respuestas_huecos = mutableListOf()
+
+        val dialogClickListener =
+            DialogInterface.OnClickListener { dialog, which ->
+                when (which) {
+                    DialogInterface.BUTTON_POSITIVE -> {
+                    }
+                }
+            }
+
+        val builder = AlertDialog.Builder(this)
 
         val extras = getIntent().getExtras()
         val button_guardar_pregunta = Button(this)
@@ -49,15 +61,17 @@ class CrearPreguntaRellenarHuecos : AppCompatActivity() {
             button_guardar_pregunta.layoutParams = layout_params
             linear_layout_rellenar_huecos.addView(button_guardar_pregunta)
             if (!texto.text.isEmpty()){
-                guardar_pregunta(button_guardar_pregunta, this, texto.text.toString(), value)
+                guardar_pregunta(button_guardar_pregunta, this, texto.text.toString(), value, builder, dialogClickListener)
             } else {
-                Toast.makeText(this, getString(R.string.enunciado_no_vacio), Toast.LENGTH_SHORT).show()
+                builder.setMessage(getString(R.string.enunciado_no_vacio)).setPositiveButton("OK", dialogClickListener).show()
+                //Toast.makeText(this, getString(R.string.enunciado_no_vacio), Toast.LENGTH_SHORT).show()
             }
 
         }
         findViewById<Button>(R.id.btn_add_respuestas_rellenar_huecos).setOnClickListener { view ->
             if (texto.text.isEmpty()) {
-                Toast.makeText(this, getString(R.string.enunciado_no_vacio), Toast.LENGTH_SHORT).show()
+                builder.setMessage(getString(R.string.enunciado_no_vacio)).setPositiveButton("OK", dialogClickListener).show()
+                //Toast.makeText(this, getString(R.string.enunciado_no_vacio), Toast.LENGTH_SHORT).show()
             } else {
                 linear_layout_rellenar_huecos.removeAllViews()
                 respuestas_huecos.clear()
@@ -78,13 +92,14 @@ class CrearPreguntaRellenarHuecos : AppCompatActivity() {
                 button_guardar_pregunta.layoutParams = layout_params
                 linear_layout_rellenar_huecos.addView(button_guardar_pregunta)
 
-                guardar_pregunta(button_guardar_pregunta, this, t, -1)
+                guardar_pregunta(button_guardar_pregunta, this, t, -1, builder, dialogClickListener)
 
             }
         }
     }
 
-    private fun guardar_pregunta(button:Button, context:Context, enunciado: String, index:Int) {
+    private fun guardar_pregunta(button:Button, context:Context, enunciado: String, index:Int, builder:AlertDialog.Builder,
+    listener:DialogInterface.OnClickListener) {
 
         button.setOnClickListener{ view ->
             var rellenos = true
@@ -94,7 +109,8 @@ class CrearPreguntaRellenarHuecos : AppCompatActivity() {
                 }
             }
             if(!rellenos) {
-                Toast.makeText(context, getString(R.string.aviso_rellenar_todos_los_huecos), Toast.LENGTH_SHORT).show()
+                builder.setMessage(getString(R.string.aviso_rellenar_todos_los_huecos)).setPositiveButton("OK", listener).show()
+                //Toast.makeText(context, getString(R.string.aviso_rellenar_todos_los_huecos), Toast.LENGTH_SHORT).show()
             } else {
                 val preguntas = SingletonMap["lista_preguntas"] as MutableList<CrearTest.Pregunta>
                 if(index != -1){
@@ -110,7 +126,7 @@ class CrearPreguntaRellenarHuecos : AppCompatActivity() {
                         }.toList()
                     ))
                 }
-
+                Toast.makeText(context, getString(R.string.pregunta_guardada), Toast.LENGTH_SHORT).show()
                 finish()
             }
         }

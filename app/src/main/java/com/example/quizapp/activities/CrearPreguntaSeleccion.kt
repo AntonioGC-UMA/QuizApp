@@ -1,5 +1,7 @@
 package com.example.quizapp.activities
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +14,15 @@ class CrearPreguntaSeleccion : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_crear_pregunta_seleccion)
 
+        val dialogClickListener =
+            DialogInterface.OnClickListener { dialog, which ->
+                when (which) {
+                    DialogInterface.BUTTON_POSITIVE -> {
+                    }
+                }
+            }
+
+        val builder = AlertDialog.Builder(this)
 
         val texto = findViewById<EditText>(R.id.texto_seleccion)
         val radio_group = findViewById<RadioGroup>(R.id.radio_group)
@@ -19,7 +30,8 @@ class CrearPreguntaSeleccion : AppCompatActivity() {
 
         findViewById<Button>(R.id.nueva_seleccion).setOnClickListener {
             if (texto.text.isEmpty()) {
-                Toast.makeText(this, getString(R.string.texto_no_vacio), Toast.LENGTH_SHORT).show()
+                builder.setMessage(getString(R.string.texto_no_vacio)).setPositiveButton("OK", dialogClickListener).show()
+                //Toast.makeText(this, getString(R.string.texto_no_vacio), Toast.LENGTH_SHORT).show()
             } else {
 
                 val t = texto.text.toString()
@@ -51,9 +63,11 @@ class CrearPreguntaSeleccion : AppCompatActivity() {
             findViewById<Button>(R.id.crear_pregunta_seleccion).text = "Guardar"
             findViewById<Button>(R.id.crear_pregunta_seleccion).setOnClickListener {
                 if (radio_group.checkedRadioButtonId == -1) {
-                    Toast.makeText(this, getString(R.string.seleccionar_opcion), Toast.LENGTH_SHORT).show()
+                    builder.setMessage( getString(R.string.seleccionar_opcion)).setPositiveButton("OK", dialogClickListener).show()
+                    //Toast.makeText(this, getString(R.string.seleccionar_opcion), Toast.LENGTH_SHORT).show()
                 } else if (enunciado.text.isEmpty()) {
-                    Toast.makeText(this, getString(R.string.enunciado_no_vacio), Toast.LENGTH_SHORT).show()
+                    builder.setMessage(getString(R.string.enunciado_no_vacio)).setPositiveButton("OK", dialogClickListener).show()
+                    //Toast.makeText(this, getString(R.string.enunciado_no_vacio), Toast.LENGTH_SHORT).show()
                 } else {
                     preguntas[value] = CrearTest.Pregunta(enunciado.text.toString(), "seleccion",
                         radio_group.children.filter { it is RadioButton }.map {
@@ -61,15 +75,18 @@ class CrearPreguntaSeleccion : AppCompatActivity() {
                             Pair(r.text.toString(), r.isChecked)
                         }.toList()
                     )
+                    Toast.makeText(this, getString(R.string.pregunta_guardada), Toast.LENGTH_SHORT).show()
                     finish()
                 }
             }
         } else {
             findViewById<Button>(R.id.crear_pregunta_seleccion).setOnClickListener {
                 if (radio_group.checkedRadioButtonId == -1) {
-                    Toast.makeText(this, getString(R.string.seleccionar_opcion), Toast.LENGTH_SHORT).show()
+                    builder.setMessage( getString(R.string.seleccionar_opcion)).setPositiveButton("OK", dialogClickListener).show()
+                   // Toast.makeText(this, getString(R.string.seleccionar_opcion), Toast.LENGTH_SHORT).show()
                 } else if (enunciado.text.isEmpty()) {
-                    Toast.makeText(this, getString(R.string.enunciado_no_vacio), Toast.LENGTH_SHORT).show()
+                    builder.setMessage(getString(R.string.enunciado_no_vacio)).setPositiveButton("OK", dialogClickListener).show()
+                    //Toast.makeText(this, getString(R.string.enunciado_no_vacio), Toast.LENGTH_SHORT).show()
                 } else {
                     val preguntas = SingletonMap["lista_preguntas"] as MutableList<CrearTest.Pregunta>
                     preguntas.add(CrearTest.Pregunta(enunciado.text.toString(), "seleccion",
@@ -78,6 +95,7 @@ class CrearPreguntaSeleccion : AppCompatActivity() {
                             Pair(r.text.toString(), r.isChecked)
                         }.toList()
                     ))
+                    Toast.makeText(this, getString(R.string.pregunta_guardada), Toast.LENGTH_SHORT).show()
                     finish()
                 }
             }
