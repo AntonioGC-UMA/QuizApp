@@ -13,19 +13,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:text="Selección" />
+        android:text="@string/tipo_seleccion" />
 
     <Button
         android:id="@+id/multipleRespuesta"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:text="Multiple respuesta2" />
+        android:text="@string/tipo_multiple" />
 
     <Button
         android:id="@+id/rellenar_huecos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:text="Rellenar huecos" />
+        android:text="@string/tipo_rellenar" />
 </LinearLayout>

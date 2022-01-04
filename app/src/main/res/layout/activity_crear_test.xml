@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:ems="10"
-        android:hint="Titulo"
+        android:hint="@string/enunciado_pregunta"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -48,7 +48,7 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:gravity="start|top"
-        android:hint="Descripcion"
+        android:hint="@string/hint_descripcion"
         android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -70,13 +70,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
-            android:text="Cancelar" />
+            android:text="@string/button_cancelar" />
 
         <Button
             android:id="@+id/crear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Crear" />
+            android:text="@string/button_crear" />
     </LinearLayout>
 
     <MultiAutoCompleteTextView
@@ -84,7 +84,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:hint="Categoria"
+        android:hint="@string/hint_categoria"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"

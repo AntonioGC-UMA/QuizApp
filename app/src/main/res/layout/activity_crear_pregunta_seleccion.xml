@@ -28,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Enunciado"
+        android:hint="@string/enunciado_pregunta"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="Crear" />
+                android:text="@string/button_anadir" />
 
             <EditText
                 android:id="@+id/texto_seleccion"
@@ -62,7 +62,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="8dp"
                 android:ems="10"
-                android:hint="Opcion"
+                android:hint="@string/hint_opcion"
                 android:inputType="textPersonName" />
         </TableRow>
 
@@ -75,13 +75,14 @@
                 android:id="@+id/cancelar_crear_pregunta_conectar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cancelar" />
+                android:layout_marginRight="20dp"
+                android:text="@string/button_cancelar" />
 
             <Button
                 android:id="@+id/crear_pregunta_seleccion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Crear" />
+                android:text="@string/button_crear" />
 
         </TableRow>
 

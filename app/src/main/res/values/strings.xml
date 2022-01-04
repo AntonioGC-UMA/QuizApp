@@ -37,4 +37,17 @@
     <string name="enunciado_pregunta">Enunciado de la pregunta</string>
     <string name="buscar_por_categoria">Buscar por categoría, ej: cultura</string>
     <string name="tests_title_fragment">Tests</string>
+    <string name="button_anadir">Añadir</string>
+    <string name="button_cancelar">Cancelar</string>
+    <string name="button_crear">Crear</string>
+    <string name="hint_opcion">Opción</string>
+    <string name="hint_categoria">Categoria</string>
+    <string name="hint_descripcion">Descripción</string>
+    <string name="registrar">Registrar</string>
+    <string name="tipo_seleccion">Selección</string>
+    <string name="tipo_multiple">Múltiple Respuesta</string>
+    <string name="tipo_rellenar">Rellenar Huecos</string>
+
+
+
 </resources>
