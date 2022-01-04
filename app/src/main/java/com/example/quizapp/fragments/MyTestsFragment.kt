@@ -19,6 +19,21 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.util.ArrayList
+import com.google.firebase.firestore.DocumentSnapshot
+
+import com.google.android.gms.tasks.OnSuccessListener
+
+import androidx.annotation.NonNull
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
+import com.google.android.gms.tasks.Tasks.whenAllSuccess
+
+
+import com.google.firebase.auth.FirebaseUser
+
+
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -78,7 +93,42 @@ class MyTestsFragment : Fragment() {
                 val query = query.split(", ").filter { it.isNotEmpty() }.distinct()
                 println(query)
                 if(query.count() > 0){ //Firebase.firestore.collection("tests").whereArrayContainsAny("categorias", query).get()
+                    val firebaseUser = FirebaseAuth.getInstance().currentUser
+                    if (firebaseUser != null) {
+                        val uid = firebaseUser.uid
+                        Firebase.firestore.collection("usuarios").document(uid).get()
+                            .addOnCompleteListener(OnCompleteListener<DocumentSnapshot?> { task ->
+                                if (task.isSuccessful) {
+                                    val document = task.getResult()
+                                    if (document != null) {
+                                        if (document.exists()) {
+                                            val list = document["mis tests"] as List<DocumentReference>?
+                                            val tasks = mutableListOf<Task<DocumentSnapshot>>()
+                                            for (documentReference in list!!) {
+                                                val documentSnapshotTask: Task<DocumentSnapshot> =
+                                                    documentReference.get()
+                                                tasks.add(documentSnapshotTask)
+                                            }
+                                            Tasks.whenAllSuccess<Task<List<Any>>>(tasks)
+                                                .addOnSuccessListener{ list -> //Do what you need to do with your list
+                                                    println(list)
+                                                    /*for (obj in list) {
+                                                        //println("TAG " + (obj as DocumentSnapshot).data?.get("descripcion"))
+                                                        println("TAG " + obj)
+                                                    }*/
+                                                }
+                                        }
+                                    }
+                                }
+                            })
+                    }
+
+
+
+
+                    /*
                     val coleccion = Firebase.firestore.collection("usuarios").document(user_id).collection("mis tests")
+
                     println(coleccion.path)
                     coleccion.whereArrayContainsAny("categorias", query).get()
                         .addOnSuccessListener {//TODO: Hay que ponerlo para que una vez tenga los tests del usuario los pueda filtrar
@@ -89,6 +139,8 @@ class MyTestsFragment : Fragment() {
                             recyclerView.layoutManager = LinearLayoutManager(activity)
                             recyclerView.adapter = adapter
                         }
+
+                     */
                 }
                 return false
             }
