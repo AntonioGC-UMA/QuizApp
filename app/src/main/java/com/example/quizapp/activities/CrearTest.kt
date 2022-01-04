@@ -1,6 +1,7 @@
 package com.example.quizapp.activities
 
 import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,7 +20,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import android.content.DialogInterface
 
 class CrearTest : AppCompatActivity() {
     private var preguntas = mutableListOf<Pregunta>()
@@ -82,10 +82,11 @@ class CrearTest : AppCompatActivity() {
                             Pair(opcion["respuesta"] as String, opcion["correcta"] as Boolean)
                         })
                     } as MutableList<Pregunta>
+                    SingletonMap["lista_preguntas"] = preguntas
                     actualizar_recicler_view()
                 }
         }
-        SingletonMap["lista_preguntas"] = preguntas
+
 
         findViewById<Button>(R.id.cancelar).setOnClickListener {
             this.finish()
