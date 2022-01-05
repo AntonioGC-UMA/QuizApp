@@ -35,8 +35,6 @@ class ResponderTest : AppCompatActivity() {
         siguiente = findViewById(R.id.boton_siguiente)
         opciones = findViewById(R.id.lista_opciones)
 
-
-        // TODO esto hay que pasarselo o que nos pasen el id del test y lo sacamos de la base de datos
         preguntas = SingletonMap["lista_preguntas"] as List<CrearTest.Pregunta>
 
         actualizar_aciertos()
@@ -118,7 +116,12 @@ class ResponderTest : AppCompatActivity() {
 
         siguiente.setOnClickListener {
             idx += 1
-            cargar_pregunta(preguntas[idx])
+            if(idx >= preguntas.size) {
+                SingletonMap["resultado test"] = Pair(aciertos_value, fallos_value)
+                this.finish()
+            } else {
+                cargar_pregunta(preguntas[idx])
+            }
         }
     }
 

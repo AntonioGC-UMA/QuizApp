@@ -22,8 +22,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class CrearTest : AppCompatActivity() {
-    private var preguntas = mutableListOf<Pregunta>()
-
     data class Pregunta(
         val enunciado: String,
         val tipo: String,
@@ -39,7 +37,6 @@ class CrearTest : AppCompatActivity() {
             val intent = Intent(this, SeleccionarTipoDePregunta::class.java)
             startActivity(intent)
         }
-
 
         val tags = findViewById<MultiAutoCompleteTextView>(R.id.multiAutoCompleteTextView)
 
@@ -77,16 +74,16 @@ class CrearTest : AppCompatActivity() {
                     tags.setText((test["categorias"] as List<String>).joinToString(", ", postfix = ", "), TextView.BufferType.EDITABLE)
                     findViewById<EditText>(R.id.titulo).setText(test["titulo"] as String, TextView.BufferType.EDITABLE)
                     findViewById<EditText>(R.id.descripcion).setText(test["descripcion"] as String, TextView.BufferType.EDITABLE)
-                    preguntas = (test["preguntas"] as List<HashMap<String,*>>).map { pregunta ->
+                    SingletonMap["lista_preguntas"] = (test["preguntas"] as List<HashMap<String,*>>).map { pregunta ->
                         Pregunta(pregunta["enunciado"] as String, pregunta["tipo"] as String, (pregunta["opciones"] as List<HashMap<String, *>>).map { opcion ->
                             Pair(opcion["respuesta"] as String, opcion["correcta"] as Boolean)
                         })
                     } as MutableList<Pregunta>
-                    SingletonMap["lista_preguntas"] = preguntas
                     actualizar_recicler_view()
                 }
+        } else {
+            SingletonMap["lista_preguntas"] = mutableListOf<Pregunta>()
         }
-
 
         findViewById<Button>(R.id.cancelar).setOnClickListener {
             this.finish()
@@ -106,35 +103,15 @@ class CrearTest : AppCompatActivity() {
             val titulo = findViewById<EditText>(R.id.titulo).text
             val descripcion = findViewById<EditText>(R.id.descripcion).text
             val tag_list = tags.text.toString().split(", ").filter { it.isNotEmpty() }.distinct()
+            val preguntas = SingletonMap["lista_preguntas"] as MutableList<Pregunta>
             if (preguntas.size < 3) {
                 builder.setMessage(getString(R.string.test_minimo_3_preguntas)).setPositiveButton("OK", dialogClickListener).show()
-                /*Toast.makeText(
-                    this,
-                    getString(R.string.test_minimo_3_preguntas),
-                    Toast.LENGTH_SHORT
-                ).show()*/
-
             } else if (tag_list.isEmpty()) {
                 builder.setMessage(getString(R.string.test_minimo_1_categoria)).setPositiveButton("OK", dialogClickListener).show()
-                /*Toast.makeText(
-                    this,
-                    getString(R.string.test_minimo_1_categoria),
-                    Toast.LENGTH_SHORT
-                ).show()*/
             } else if (titulo.isEmpty()) {
                 builder.setMessage(getString(R.string.test_minimo_1_titulo)).setPositiveButton("OK", dialogClickListener).show()
-                /*Toast.makeText(
-                    this,
-                    getString(R.string.test_minimo_1_titulo),
-                    Toast.LENGTH_SHORT
-                ).show()*/
             } else if (descripcion.isEmpty()) {
                 builder.setMessage(getString(R.string.test_minimo_1_descripcion)).setPositiveButton("OK", dialogClickListener).show()
-                /*Toast.makeText(
-                    this,
-                    getString(R.string.test_minimo_1_descripcion),
-                    Toast.LENGTH_SHORT
-                ).show()*/
             } else {
                 val test = hashMapOf(
                     "categorias" to tag_list,
@@ -172,11 +149,6 @@ class CrearTest : AppCompatActivity() {
                     }
                     .addOnFailureListener {
                         builder.setMessage(getString(R.string.test_creado_fallo) + it.message).setPositiveButton("OK", dialogClickListener).show()
-                        /*Toast.makeText(
-                            this,
-                            getString(R.string.test_creado_fallo) + it.message,
-                            Toast.LENGTH_LONG
-                        ).show()*/
                     }
 
                 val doc_id = FirebaseAuth.getInstance().currentUser?.uid.orEmpty()
@@ -185,11 +157,6 @@ class CrearTest : AppCompatActivity() {
                     .addOnSuccessListener { }
                     .addOnFailureListener { exception ->
                         builder.setMessage(getString(R.string.test_asignado_fallo) + "${exception.message}").setPositiveButton("OK", dialogClickListener).show()
-                        /*Toast.makeText(
-                            this,
-                            getString(R.string.test_asignado_fallo) + "${exception.message}",
-                            Toast.LENGTH_SHORT
-                        ).show()*/
                     }
             }
 
@@ -200,15 +167,14 @@ class CrearTest : AppCompatActivity() {
     fun actualizar_recicler_view() {
         val recyclerView = findViewById<RecyclerView>(R.id.listaPreguntas)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = CustomAdapter(preguntas)
+        recyclerView.adapter = CustomAdapter(SingletonMap["lista_preguntas"] as MutableList<Pregunta>)
     }
 
-    // usa esta funcion para actualizar la lista cuando se añadan nuevos elementos?
     override fun onResume() {
         super.onResume()
         actualizar_recicler_view()
     }
-    // Esto es del recycler view
+
     inner class CustomAdapter(private val dataSet: List<Pregunta>) :
         RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 

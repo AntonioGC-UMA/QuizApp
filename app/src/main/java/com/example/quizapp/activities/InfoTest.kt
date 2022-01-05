@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizapp.R
 import com.example.quizapp.entities.SingletonMap
@@ -30,13 +31,19 @@ class InfoTest : AppCompatActivity() {
                     })
             }
 
-
             val intent = Intent(this, ResponderTest::class.java)
             startActivity(intent)
         }
     }
 
+    override fun onResume() {
+        super.onResume()
 
-
-
+        val resultado = SingletonMap["resultado test"]
+        if (resultado != null) {
+            SingletonMap.remove("resultado test")
+            val (aciertos, fallos) = resultado as Pair<Int, Int>
+            Toast.makeText(this, "Has acertado " + aciertos + " y has fallado " + fallos, Toast.LENGTH_SHORT).show()
+        }
+    }
 }

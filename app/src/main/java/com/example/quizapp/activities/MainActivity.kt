@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.quizapp.R
 import com.example.quizapp.entities.SingletonMap
 import com.google.firebase.auth.FirebaseAuth
@@ -54,6 +55,7 @@ private lateinit var databaseReference: DatabaseReference
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         databaseReference = FirebaseDatabase.getInstance().getReference("Users")
