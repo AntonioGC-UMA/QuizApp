@@ -13,6 +13,9 @@
             android:name=".activities.ResponderTest"
             android:exported="false" />
         <activity
+            android:name=".activities.InfoTest"
+            android:exported="false" />
+        <activity
             android:name=".activities.CrearPreguntaRellenarHuecos"
             android:exported="false" />
         <activity

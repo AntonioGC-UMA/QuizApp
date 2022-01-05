@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quizapp.R
 import com.example.quizapp.activities.CrearTest
+import com.example.quizapp.activities.InfoTest
+import com.example.quizapp.entities.SingletonMap
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
@@ -144,11 +146,10 @@ class DoneTestsFragment : Fragment() {
             viewHolder.itemTitle.text = dataSet[position].get("titulo") as String
             viewHolder.itemDescription.text = dataSet[position].get("descripcion") as String
             viewHolder.view.setOnClickListener{
-                /*val intent = Intent(viewHolder.view.context, CrearTest::class.java)
-                intent.putExtra("id", dataSet[position])
+                val intent = Intent(viewHolder.view.context, InfoTest::class.java)
+                SingletonMap["lastTest"] = dataSet[position]
                 viewHolder.view.context.startActivity(intent)
-                */
-                 //TODO: Abrir una activity para rehacer el test
+                //TODO: Abrir una activity para rehacer el test
             }
         }
 
