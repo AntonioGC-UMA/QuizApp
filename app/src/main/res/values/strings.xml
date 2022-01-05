@@ -48,4 +48,5 @@
     <string name="tipo_multiple">Múltiple Respuesta</string>
     <string name="tipo_rellenar">Rellenar Huecos</string>
     <string name="pregunta_guardada">Pregunta añadida</string>
+    <string name="titulo_test">Título del test</string>
 </resources>

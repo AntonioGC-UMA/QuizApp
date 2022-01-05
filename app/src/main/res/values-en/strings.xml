@@ -48,4 +48,6 @@
     <string name="tipo_multiple">Multiple answers</string>
     <string name="tipo_rellenar">Fill gaps</string>
     <string name="pregunta_guardada">Question added</string>
+    <string name="titulo_test">Test title</string>
+
 </resources>

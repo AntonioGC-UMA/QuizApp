@@ -64,14 +64,12 @@ class CrearPreguntaRellenarHuecos : AppCompatActivity() {
                 guardar_pregunta(button_guardar_pregunta, this, texto.text.toString(), value, builder, dialogClickListener)
             } else {
                 builder.setMessage(getString(R.string.enunciado_no_vacio)).setPositiveButton("OK", dialogClickListener).show()
-                //Toast.makeText(this, getString(R.string.enunciado_no_vacio), Toast.LENGTH_SHORT).show()
             }
 
         }
         findViewById<Button>(R.id.btn_add_respuestas_rellenar_huecos).setOnClickListener { view ->
             if (texto.text.isEmpty()) {
                 builder.setMessage(getString(R.string.enunciado_no_vacio)).setPositiveButton("OK", dialogClickListener).show()
-                //Toast.makeText(this, getString(R.string.enunciado_no_vacio), Toast.LENGTH_SHORT).show()
             } else {
                 linear_layout_rellenar_huecos.removeAllViews()
                 respuestas_huecos.clear()
@@ -110,7 +108,6 @@ class CrearPreguntaRellenarHuecos : AppCompatActivity() {
             }
             if(!rellenos) {
                 builder.setMessage(getString(R.string.aviso_rellenar_todos_los_huecos)).setPositiveButton("OK", listener).show()
-                //Toast.makeText(context, getString(R.string.aviso_rellenar_todos_los_huecos), Toast.LENGTH_SHORT).show()
             } else {
                 val preguntas = SingletonMap["lista_preguntas"] as MutableList<CrearTest.Pregunta>
                 if(index != -1){
