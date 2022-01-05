@@ -57,7 +57,15 @@ class ResponderTest : AppCompatActivity() {
                     rg.addView(rb)
                 }
             }
-            "multiple" -> {}
+            "multiple" -> {
+                val ll = LinearLayout(this)
+                for(o in p.opciones){
+                    val checkBox = CheckBox(this)
+                    checkBox.text = o.first
+                    opciones.addView(checkBox)
+                }
+
+            }
             "rellenar huecos" -> {
                 for(o in p.opciones){
                     val editText = EditText(this)
@@ -92,7 +100,24 @@ class ResponderTest : AppCompatActivity() {
                     }
                 }
             }
-            "multiple" -> {}
+            "multiple" -> {
+                val errores = opciones.children.filter { it is CheckBox }
+                    .withIndex()
+                    .filter {
+                        val r = it.value as CheckBox
+                        p.opciones[it.index].second != r.isChecked
+                    }.toList()
+                if (errores.isEmpty()) {
+                    solucion.text = "Correcto!"
+                    aciertos_value += 1
+                } else {
+                    fallos_value += 1
+                    solucion.text = errores.joinToString("\n") {
+                        (it.value as CheckBox).text.toString() + " debería ser " + p.opciones[it.index].second.toString()
+                    }
+                }
+
+            }
             "rellenar huecos" -> {
                  val errores = opciones.children.filter { it is EditText }
                     .withIndex()
