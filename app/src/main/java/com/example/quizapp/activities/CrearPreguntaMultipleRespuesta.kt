@@ -79,10 +79,8 @@ class CrearPreguntaMultipleRespuesta : AppCompatActivity() {
             findViewById<Button>(R.id.button_crear).setOnClickListener {
                 if (CheckedCount(checkboxes) <= 0) {
                     builder.setMessage(getString(R.string.seleccionar_opcion)).setPositiveButton("OK", dialogClickListener).show()
-                    //Toast.makeText(this, getString(R.string.seleccionar_opcion), Toast.LENGTH_SHORT).show()
                 } else if (enunciado.text.isEmpty()) {
                     builder.setMessage(getString(R.string.enunciado_no_vacio)).setPositiveButton("OK", dialogClickListener).show()
-                    //Toast.makeText(this, getString(R.string.enunciado_no_vacio), Toast.LENGTH_SHORT).show()
                 } else {
                     val preguntas = SingletonMap["lista_preguntas"] as MutableList<CrearTest.Pregunta>
                     // TODO: poner un enunciado
@@ -102,13 +100,10 @@ class CrearPreguntaMultipleRespuesta : AppCompatActivity() {
 
                 if (checkboxes.childCount == 0) {
                     builder.setMessage(getString(R.string.aviso_crear_alguna_opcion)).setPositiveButton("OK", dialogClickListener).show()
-                    //Toast.makeText(this,getString(R.string.aviso_crear_alguna_opcion) , Toast.LENGTH_SHORT).show()
                 } else if(CheckedCount(checkboxes) == 0){
                     builder.setMessage(getString(R.string.aviso_seleccionar_alguna_opcion)).setPositiveButton("OK", dialogClickListener).show()
-                    //Toast.makeText(this, getString(R.string.aviso_seleccionar_alguna_opcion), Toast.LENGTH_SHORT).show()
                 }else if(enunciado.text.isEmpty()){
                     builder.setMessage(getString(R.string.aviso_enunciado_correcto)).setPositiveButton("OK", dialogClickListener).show()
-                    //Toast.makeText(this, getString(R.string.aviso_enunciado_correcto), Toast.LENGTH_SHORT).show()
                 }else {
                     val preguntas = SingletonMap["lista_preguntas"] as MutableList<CrearTest.Pregunta>
                     // TODO: poner un enunciado

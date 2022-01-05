@@ -38,16 +38,10 @@ private lateinit var databaseReference: DatabaseReference
 
         if (email.isEmpty()) {
             builder.setMessage(getString(R.string.email_no_vacio)).setPositiveButton("OK", dialogClickListener).show()
-            //Toast.makeText(this, getString(R.string.email_no_vacio), Toast.LENGTH_SHORT).show()
             return null
         }
         if (password.length < 6) {
             builder.setMessage(getString(R.string.pass_min_6)).setPositiveButton("OK", dialogClickListener).show()
-            /*Toast.makeText(
-                this,
-                getString(R.string.pass_min_6),
-                Toast.LENGTH_SHORT
-            ).show()*/
             return null
         }
 
@@ -81,11 +75,6 @@ private lateinit var databaseReference: DatabaseReference
                     }
                     .addOnFailureListener{ exception ->
                         builder.setMessage(getString(R.string.auth_fail) + " ${exception.message}").setPositiveButton("OK", dialogClickListener).show()
-                        /* Toast.makeText(
-                             this,
-                             getString(R.string.auth_fail) + " ${exception.message}",
-                             Toast.LENGTH_LONG
-                         ).show()*/
                     }
                 }
 
@@ -107,23 +96,13 @@ private lateinit var databaseReference: DatabaseReference
                             .set(usuario)
                             .addOnFailureListener {
                                 builder.setMessage(getString(R.string.usuario_info_fail) + it.message).setPositiveButton("OK", dialogClickListener).show()
-                                /*Toast.makeText(
-                                this,
-                                getString(R.string.usuario_info_fail) + it.message,
-                                Toast.LENGTH_SHORT
-                            ).show()*/ }
+                            }
                         val intent = Intent(this, Home::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         startActivity(intent)
                     }
                     .addOnFailureListener { exception ->
                         builder.setMessage(getString(R.string.creacion_fail) + " ${exception.message}").setPositiveButton("OK", dialogClickListener).show()
-
-                        /*Toast.makeText(
-                            baseContext,
-                            getString(R.string.creacion_fail) + " ${exception.message}",
-                            Toast.LENGTH_LONG
-                        ).show()*/
                     }
                 }
         }
