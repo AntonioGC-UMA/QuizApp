@@ -59,7 +59,15 @@ class ResponderTest : AppCompatActivity() {
                     rg.addView(rb)
                 }
             }
-            "multiple" -> {}
+            "multiple" -> {
+                val ll = LinearLayout(this)
+                for(o in p.opciones){
+                    val checkBox = CheckBox(this)
+                    checkBox.text = o.first
+                    opciones.addView(checkBox)
+                }
+
+            }
             "rellenar huecos" -> {
                 for(o in p.opciones){
                     val editText = EditText(this)
