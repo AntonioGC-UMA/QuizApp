@@ -65,9 +65,17 @@ class AllTests : Fragment() {
                 if(query.count() > 0){
                     Firebase.firestore.collection("tests").whereArrayContainsAny("categorias", query).get()
                         .addOnSuccessListener {documents ->
-                            val adapter = CustomAdapter(documents.documents)
-                            recyclerView.layoutManager = LinearLayoutManager(activity)
-                            recyclerView.adapter = adapter
+                            Firebase.firestore.collection("tests").document(query[0]).get().addOnSuccessListener {
+                                if (it.exists()) {
+                                    val adapter = CustomAdapter(listOf(it))
+                                    recyclerView.layoutManager = LinearLayoutManager(activity)
+                                    recyclerView.adapter = adapter
+                                } else {
+                                    val adapter = CustomAdapter(documents.documents)
+                                    recyclerView.layoutManager = LinearLayoutManager(activity)
+                                    recyclerView.adapter = adapter
+                                }
+                            }
                         }
                 }
                 return false
