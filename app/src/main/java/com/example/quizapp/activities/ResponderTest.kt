@@ -60,7 +60,12 @@ class ResponderTest : AppCompatActivity() {
                 }
             }
             "multiple" -> {}
-            "rellenar huecos" -> {}
+            "rellenar huecos" -> {
+                for(o in p.opciones){
+                    val editText = EditText(this)
+                    opciones.addView(editText)
+                }
+            }
         }
 
         siguiente.setOnClickListener {
@@ -90,7 +95,23 @@ class ResponderTest : AppCompatActivity() {
                 }
             }
             "multiple" -> {}
-            "rellenar huecos" -> {}
+            "rellenar huecos" -> {
+                 val errores = opciones.children.filter { it is EditText }
+                    .withIndex()
+                    .filter {
+                        val r = it.value as EditText
+                        p.opciones[it.index].first != r.text.toString()
+                    }.toList()
+                if (errores.isEmpty()) {
+                    solucion.text = "Correcto!"
+                    aciertos_value += 1
+                } else {
+                    fallos_value += 1
+                    solucion.text = errores.joinToString("\n") {
+                        (it.value as EditText).text.toString() + " debería ser " + p.opciones[it.index].first.toString()
+                    }
+                }
+            }
         }
 
         actualizar_aciertos()
