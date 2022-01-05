@@ -104,14 +104,14 @@ class CrearTest : AppCompatActivity() {
             val descripcion = findViewById<EditText>(R.id.descripcion).text
             val tag_list = tags.text.toString().split(", ").filter { it.isNotEmpty() }.distinct()
             val preguntas = SingletonMap["lista_preguntas"] as MutableList<Pregunta>
-            if (preguntas.size < 3) {
-                builder.setMessage(getString(R.string.test_minimo_3_preguntas)).setPositiveButton("OK", dialogClickListener).show()
-            } else if (tag_list.isEmpty()) {
-                builder.setMessage(getString(R.string.test_minimo_1_categoria)).setPositiveButton("OK", dialogClickListener).show()
-            } else if (titulo.isEmpty()) {
+            if (titulo.isEmpty()) {
                 builder.setMessage(getString(R.string.test_minimo_1_titulo)).setPositiveButton("OK", dialogClickListener).show()
             } else if (descripcion.isEmpty()) {
                 builder.setMessage(getString(R.string.test_minimo_1_descripcion)).setPositiveButton("OK", dialogClickListener).show()
+            } else if (tag_list.isEmpty()) {
+                builder.setMessage(getString(R.string.test_minimo_1_categoria)).setPositiveButton("OK", dialogClickListener).show()
+            } else if (preguntas.size < 3) {
+                builder.setMessage(getString(R.string.test_minimo_3_preguntas)).setPositiveButton("OK", dialogClickListener).show()
             } else {
                 val test = hashMapOf(
                     "categorias" to tag_list,

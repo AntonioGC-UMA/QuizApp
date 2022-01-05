@@ -1,36 +1,27 @@
 package com.example.quizapp.fragments
 
+
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.SearchView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quizapp.R
 import com.example.quizapp.activities.CrearTest
+import com.google.android.gms.tasks.Tasks
+import com.google.android.gms.tasks.Tasks.whenAllSuccess
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import java.util.ArrayList
-import com.google.firebase.firestore.DocumentSnapshot
-
-import com.google.android.gms.tasks.OnSuccessListener
-
-import androidx.annotation.NonNull
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
-import com.google.android.gms.tasks.Tasks
-import com.google.android.gms.tasks.Tasks.whenAllSuccess
-
-
-import com.google.firebase.auth.FirebaseUser
+import java.util.*
 
 
 
@@ -101,10 +92,11 @@ class MyTestsFragment : Fragment() {
                         .get().addOnSuccessListener { documento ->
                             val tests = documento.get("mis tests") as List<DocumentReference>
                             val tasks = tests.map { it.get() }
-                            Tasks.whenAllSuccess<DocumentSnapshot>(tasks)
+                            whenAllSuccess<DocumentSnapshot>(tasks)
                                 .addOnSuccessListener{ list -> //Do what you need to do with your list
                                     val lista_filtrada = list.filter {
-                                        (it.get("categorias") as List<String>).containsAll(query)
+                                        (it.get("categorias") as List<String>).containsAll(query) ||
+                                                it.id == query[0]
                                     }
                                     val adapter = CustomAdapter(lista_filtrada)
                                     recyclerView.layoutManager = LinearLayoutManager(activity)

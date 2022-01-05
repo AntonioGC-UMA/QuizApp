@@ -89,7 +89,8 @@ class DoneTestsFragment : Fragment() {
                             Tasks.whenAllSuccess<DocumentSnapshot>(tasks)
                                 .addOnSuccessListener{ list -> //Do what you need to do with your list
                                    val lista_filtrada = list.filter {
-                                        (it.get("categorias") as List<String>).containsAll(query)
+                                        (it.get("categorias") as List<String>).containsAll(query)  ||
+                                                it.id == query[0]
                                     }
                                     val adapter = CustomAdapter(lista_filtrada)
                                     recyclerView.layoutManager = LinearLayoutManager(activity)
