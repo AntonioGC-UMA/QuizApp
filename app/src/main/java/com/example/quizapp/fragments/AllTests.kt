@@ -2,19 +2,17 @@ package com.example.quizapp.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quizapp.R
-import com.example.quizapp.activities.CrearTest
-import com.google.android.gms.tasks.Tasks
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentReference
+import com.example.quizapp.activities.InfoTest
+import com.example.quizapp.entities.SingletonMap
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -119,10 +117,9 @@ class AllTests : Fragment() {
             viewHolder.itemTitle.text = dataSet[position].get("titulo") as String
             viewHolder.itemDescription.text = dataSet[position].get("descripcion") as String
             viewHolder.view.setOnClickListener{
-                /*val intent = Intent(viewHolder.view.context, CrearTest::class.java)
-                intent.putExtra("id", dataSet[position])
-                viewHolder.view.context.startActivity(intent)*/
-                //TODO: Abrir una activity para hacer el test
+                val intent = Intent(viewHolder.view.context, InfoTest::class.java)
+                SingletonMap["lastTest"] = dataSet[position]
+                viewHolder.view.context.startActivity(intent)
             }
         }
 
