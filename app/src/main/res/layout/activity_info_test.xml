@@ -102,7 +102,7 @@
         app:layout_constraintVertical_bias="0.812" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/compartir"
         android:layout_width="56dp"
         android:layout_height="51dp"
         android:layout_marginEnd="40dp"
@@ -112,7 +112,7 @@
         app:srcCompat="?attr/actionModeShareDrawable" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/valorar"
         android:layout_width="62dp"
         android:layout_height="55dp"
         android:layout_marginStart="60dp"

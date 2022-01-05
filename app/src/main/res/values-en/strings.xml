@@ -49,5 +49,11 @@
     <string name="tipo_rellenar">Fill gaps</string>
     <string name="pregunta_guardada">Question added</string>
     <string name="titulo_test">Test title</string>
+    <string name="aviso_portapapeles">Code copied to clipboard</string>
+    <string name="has_acertado">You got rigth</string>
+    <string name="has_fallado">You have failed</string>
+    <string name="correcto">You are Rigth!</string>
+    <string name="deberia_ser">it should be</string>
+    <string name="guardar">Save</string>
 
 </resources>

@@ -75,7 +75,7 @@ class CrearPreguntaMultipleRespuesta : AppCompatActivity() {
                 c.isChecked = o.second
                 checkboxes.addView(c)
             }
-            findViewById<Button>(R.id.button_crear).text = "Guardar"
+            findViewById<Button>(R.id.button_crear).text = getString(R.string.guardar)
             findViewById<Button>(R.id.button_crear).setOnClickListener {
                 if (CheckedCount(checkboxes) <= 0) {
                     builder.setMessage(getString(R.string.seleccionar_opcion)).setPositiveButton("OK", dialogClickListener).show()

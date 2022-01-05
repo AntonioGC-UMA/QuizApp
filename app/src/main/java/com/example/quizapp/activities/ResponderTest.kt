@@ -91,12 +91,12 @@ class ResponderTest : AppCompatActivity() {
                     }.toList()
 
                 if (errores.isEmpty()) {
-                    solucion.text = "Correcto!"
+                    solucion.text = getString(R.string.correcto)
                     aciertos_value += 1
                 } else {
                     fallos_value += 1
                     solucion.text = errores.joinToString("\n") {
-                        (it.value as RadioButton).text.toString() + " debería ser " + p.opciones[it.index].second.toString()
+                        (it.value as RadioButton).text.toString() + getString(R.string.deberia_ser) + p.opciones[it.index].second.toString()
                     }
                 }
             }
@@ -108,12 +108,12 @@ class ResponderTest : AppCompatActivity() {
                         p.opciones[it.index].second != r.isChecked
                     }.toList()
                 if (errores.isEmpty()) {
-                    solucion.text = "Correcto!"
+                    solucion.text = getString(R.string.correcto)
                     aciertos_value += 1
                 } else {
                     fallos_value += 1
                     solucion.text = errores.joinToString("\n") {
-                        (it.value as CheckBox).text.toString() + " debería ser " + p.opciones[it.index].second.toString()
+                        (it.value as CheckBox).text.toString() + getString(R.string.deberia_ser) + p.opciones[it.index].second.toString()
                     }
                 }
 
@@ -126,12 +126,12 @@ class ResponderTest : AppCompatActivity() {
                         p.opciones[it.index].first != r.text.toString()
                     }.toList()
                 if (errores.isEmpty()) {
-                    solucion.text = "Correcto!"
+                    solucion.text = getString(R.string.correcto)
                     aciertos_value += 1
                 } else {
                     fallos_value += 1
                     solucion.text = errores.joinToString("\n") {
-                        (it.value as EditText).text.toString() + " debería ser " + p.opciones[it.index].first.toString()
+                        (it.value as EditText).text.toString() + getString(R.string.deberia_ser) + p.opciones[it.index].first.toString()
                     }
                 }
             }
