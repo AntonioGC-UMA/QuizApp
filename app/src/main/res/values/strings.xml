@@ -61,4 +61,11 @@
     <string name="fallos">fallos</string>
     <string name="siguiente_pregunta">Siguiente</string>
     <string name="finalizar_test">Finalizar</string>
+    <string name="test_valorado_exito">Test valorado con éxito</string>
+    <string name="categoria_test">Categoría:</string>
+    <string name="descripcion_test">Descripción:</string>
+    <string name="titulo_test_info">Título:</string>
+    <string name="realizar_test">Realizar test</string>
+    <string name="valorar">Valora el test</string>
+    <string name="num_preguntas">Número de preguntas:</string>
 </resources>

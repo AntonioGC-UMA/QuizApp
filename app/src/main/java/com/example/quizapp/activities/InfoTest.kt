@@ -50,18 +50,17 @@ class InfoTest : AppCompatActivity(), RatingBar.OnRatingBarChangeListener {
 
     }
 
-
-
-
     override fun onResume() {
         super.onResume()
         val rBar = findViewById<RatingBar>(R.id.calificacion_test)
         rBar.onRatingBarChangeListener = this
+
+        val calificacion = findViewById<TextView>(R.id.calificacion)
         val resultado = SingletonMap["resultado test"]
         if (resultado != null) {
             SingletonMap.remove("resultado test")
             val (aciertos, fallos) = resultado as Pair<Int, Int>
-            Toast.makeText(this, getString(R.string.has_acertado) + aciertos + getString(R.string.has_fallado) + fallos, Toast.LENGTH_SHORT).show()
+            calificacion.text = getString(R.string.has_acertado) + " " +  aciertos + " " + getString(R.string.has_fallado) + " " + fallos
             Firebase.firestore.collection("usuarios").document(FirebaseAuth.getInstance().uid!!).update("tests realizados", FieldValue.arrayUnion(test.reference))
         }
     }
@@ -69,7 +68,7 @@ class InfoTest : AppCompatActivity(), RatingBar.OnRatingBarChangeListener {
     override fun onRatingChanged(p0: RatingBar?, p1: Float, p2: Boolean) {
         Firebase.firestore.collection("tests")
             .document(test.id).update("valoracion", p1).addOnSuccessListener {
-                Toast.makeText(this, "Test valorado con exito", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.test_valorado_exito), Toast.LENGTH_SHORT).show()
             }
     }
 }
