@@ -59,13 +59,11 @@ class ResponderTest : AppCompatActivity() {
                 }
             }
             "multiple" -> {
-                val ll = LinearLayout(this)
                 for(o in p.opciones){
                     val checkBox = CheckBox(this)
                     checkBox.text = o.first
                     opciones.addView(checkBox)
                 }
-
             }
             "rellenar huecos" -> {
                 for(o in p.opciones){
@@ -139,12 +137,19 @@ class ResponderTest : AppCompatActivity() {
                 }
             }
         }
-
+        // TODO usar un @string
+        siguiente.text = "Comprobar"
         actualizar_aciertos()
-
+        // TODO usar un @string
+        val es_ultimo = (idx + 1) >= preguntas.size
+        if (es_ultimo) {
+            siguiente.text = "Terminar"
+        } else {
+            siguiente.text = "Siguiente"
+        }
         siguiente.setOnClickListener {
             idx += 1
-            if(idx >= preguntas.size) {
+            if(es_ultimo) {
                 SingletonMap["resultado test"] = Pair(aciertos_value, fallos_value)
                 this.finish()
             } else {

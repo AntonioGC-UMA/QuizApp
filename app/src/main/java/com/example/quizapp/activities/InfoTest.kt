@@ -1,28 +1,17 @@
 package com.example.quizapp.activities
 
-import android.R.attr
-import android.content.Intent
-import android.os.Bundle
-import android.view.MotionEvent
-import android.view.View
-import android.widget.Button
-import android.widget.RatingBar
-import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintSet
-import com.example.quizapp.R
-import com.example.quizapp.entities.SingletonMap
-import com.google.firebase.firestore.DocumentSnapshot
-import android.R.attr.text
-
-import android.R.attr.label
-
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
+import android.os.Bundle
 import android.widget.*
-
+import androidx.appcompat.app.AppCompatActivity
+import com.example.quizapp.R
+import com.example.quizapp.entities.SingletonMap
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -73,6 +62,7 @@ class InfoTest : AppCompatActivity(), RatingBar.OnRatingBarChangeListener {
             SingletonMap.remove("resultado test")
             val (aciertos, fallos) = resultado as Pair<Int, Int>
             Toast.makeText(this, getString(R.string.has_acertado) + aciertos + getString(R.string.has_fallado) + fallos, Toast.LENGTH_SHORT).show()
+            Firebase.firestore.collection("usuarios").document(FirebaseAuth.getInstance().uid!!).update("tests realizados", FieldValue.arrayUnion(test.reference))
         }
     }
 
