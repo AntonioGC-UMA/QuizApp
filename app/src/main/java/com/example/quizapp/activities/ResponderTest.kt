@@ -37,6 +37,7 @@ class ResponderTest : AppCompatActivity() {
 
         preguntas = SingletonMap["lista_preguntas"] as List<CrearTest.Pregunta>
 
+        siguiente.text = getString(R.string.siguiente_pregunta)
         actualizar_aciertos()
         cargar_pregunta(preguntas[idx])
     }
@@ -73,7 +74,9 @@ class ResponderTest : AppCompatActivity() {
                 }
             }
         }
-
+        if(idx >= preguntas.size){
+            siguiente.text = getString(R.string.finalizar_test)
+        }
         siguiente.setOnClickListener {
             verificar_pregunta(preguntas[idx])
         }
@@ -131,7 +134,7 @@ class ResponderTest : AppCompatActivity() {
                 } else {
                     fallos_value += 1
                     solucion.text = errores.joinToString("\n") {
-                        (it.value as EditText).text.toString() + getString(R.string.deberia_ser) + p.opciones[it.index].first.toString()
+                        (it.value as EditText).text.toString() + " " + getString(R.string.deberia_ser) + " " + p.opciones[it.index].first.toString()
                     }
                 }
             }
@@ -151,8 +154,8 @@ class ResponderTest : AppCompatActivity() {
     }
 
     fun actualizar_aciertos() {
-        aciertos.text = aciertos_value.toString()
-        fallos.text = fallos_value.toString()
-        progreso.text = (aciertos_value + fallos_value).toString() + "/" + preguntas.size.toString()
+        aciertos.text = aciertos_value.toString() + " " + getString(R.string.preguntas)
+        fallos.text = fallos_value.toString() + " " + getString(R.string.preguntas)
+        progreso.text = getString(R.string.progreso) + " " + (aciertos_value + fallos_value).toString() + "/" + preguntas.size.toString() + " " + getString(R.string.preguntas)
     }
 }
