@@ -84,23 +84,25 @@
         android:id="@+id/calificacion_test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="60dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lbl_valorar_test"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.102"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <ImageView
         android:id="@+id/compartir"
         android:layout_width="56dp"
         android:layout_height="51dp"
-        android:layout_marginEnd="176dp"
         android:layout_marginBottom="68dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/calificacion_test"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="?attr/actionModeShareDrawable" />
 
     <TextView
