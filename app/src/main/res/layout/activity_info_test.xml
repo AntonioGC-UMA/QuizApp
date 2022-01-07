@@ -7,11 +7,11 @@
 
     <TextView
         android:id="@+id/label_descripcion"
-        android:layout_width="163dp"
-        android:layout_height="26dp"
+        android:layout_width="161dp"
+        android:layout_height="22dp"
         android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.774"
+        app:layout_constraintHorizontal_bias="0.768"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/label_titulo" />
 
@@ -55,22 +55,22 @@
 
     <TextView
         android:id="@+id/label_titulo"
-        android:layout_width="163dp"
-        android:layout_height="26dp"
+        android:layout_width="160dp"
+        android:layout_height="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.774"
+        app:layout_constraintHorizontal_bias="0.764"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.106" />
+        app:layout_constraintVertical_bias="0.115" />
 
     <TextView
         android:id="@+id/label_categorias"
-        android:layout_width="163dp"
-        android:layout_height="26dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="158dp"
+        android:layout_height="21dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.774"
+        app:layout_constraintHorizontal_bias="0.758"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/label_descripcion" />
 
@@ -150,7 +150,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.237"
+        app:layout_constraintHorizontal_bias="0.338"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/num_preguntas" />
 

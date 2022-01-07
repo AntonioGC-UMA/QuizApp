@@ -25,6 +25,7 @@ class InfoTest : AppCompatActivity(), RatingBar.OnRatingBarChangeListener {
         setContentView(R.layout.activity_info_test)
 
 
+
         findViewById<TextView>(R.id.label_titulo).text = test.get("titulo") as String
         findViewById<TextView>(R.id.label_descripcion).text = test.get("descripcion") as String
         findViewById<TextView>(R.id.label_categorias).text = (test.get("categorias") as List<String>).joinToString(" ")
@@ -55,7 +56,7 @@ class InfoTest : AppCompatActivity(), RatingBar.OnRatingBarChangeListener {
     override fun onResume() {
         super.onResume()
         val rBar = findViewById<RatingBar>(R.id.calificacion_test)
-        rBar.numStars = valoracion.toInt()
+        rBar.rating = valoracion.toFloat()
         rBar.onRatingBarChangeListener = this
 
         val calificacion = findViewById<TextView>(R.id.calificacion)
@@ -63,7 +64,7 @@ class InfoTest : AppCompatActivity(), RatingBar.OnRatingBarChangeListener {
         if (resultado != null) {
             SingletonMap.remove("resultado test")
             val (aciertos, fallos) = resultado as Pair<Int, Int>
-            calificacion.text = getString(R.string.has_acertado) + " " +  aciertos + " " + getString(R.string.has_fallado) + " " + fallos
+            calificacion.text = getString(R.string.has_acertado) + " " +  aciertos + ", " + getString(R.string.has_fallado) + " " + fallos + getString(R.string.preguntas)
             Firebase.firestore.collection("usuarios").document(FirebaseAuth.getInstance().uid!!).update("tests realizados", FieldValue.arrayUnion(test.reference))
         }
     }
