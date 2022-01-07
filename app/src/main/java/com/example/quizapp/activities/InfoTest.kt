@@ -55,7 +55,7 @@ class InfoTest : AppCompatActivity(), RatingBar.OnRatingBarChangeListener {
     override fun onResume() {
         super.onResume()
         val rBar = findViewById<RatingBar>(R.id.calificacion_test)
-        rBar.numStars = valoracion.toInt()
+        rBar.rating = valoracion.toFloat()
         rBar.onRatingBarChangeListener = this
 
         val calificacion = findViewById<TextView>(R.id.calificacion)
