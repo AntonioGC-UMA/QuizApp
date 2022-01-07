@@ -68,5 +68,6 @@
     <string name="realizar_test">Answer test</string>
     <string name="valorar">Rate this test</string>
     <string name="num_preguntas">Questions number:</string>
+    <string name="comprobar_pregunta">Check answer</string>
 
 </resources>

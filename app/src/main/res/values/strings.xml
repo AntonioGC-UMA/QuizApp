@@ -68,4 +68,5 @@
     <string name="realizar_test">Realizar test</string>
     <string name="valorar">Valora el test</string>
     <string name="num_preguntas">Número de preguntas:</string>
+    <string name="comprobar_pregunta">Comprobar respuesta</string>
 </resources>
