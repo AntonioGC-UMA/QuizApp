@@ -71,6 +71,7 @@ class ResponderTest : AppCompatActivity() {
                 }
             }
         }
+        siguiente.text = getString(R.string.comprobar_pregunta)
         siguiente.setOnClickListener {
             verificar_pregunta(preguntas[idx])
         }
@@ -133,7 +134,7 @@ class ResponderTest : AppCompatActivity() {
                 }
             }
         }
-        siguiente.text = getString(R.string.comprobar_pregunta)
+
         actualizar_aciertos()
         val es_ultimo = (idx + 1) >= preguntas.size
         if (es_ultimo) {
