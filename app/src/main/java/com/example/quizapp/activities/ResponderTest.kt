@@ -37,6 +37,7 @@ class ResponderTest : AppCompatActivity() {
 
         preguntas = SingletonMap["lista_preguntas"] as List<CrearTest.Pregunta>
 
+        siguiente.text = getString(R.string.siguiente_pregunta)
         actualizar_aciertos()
         cargar_pregunta(preguntas[idx])
     }
@@ -58,13 +59,11 @@ class ResponderTest : AppCompatActivity() {
                 }
             }
             "multiple" -> {
-                val ll = LinearLayout(this)
                 for(o in p.opciones){
                     val checkBox = CheckBox(this)
                     checkBox.text = o.first
                     opciones.addView(checkBox)
                 }
-
             }
             "rellenar huecos" -> {
                 for(o in p.opciones){
@@ -73,7 +72,9 @@ class ResponderTest : AppCompatActivity() {
                 }
             }
         }
-
+        if(idx >= preguntas.size){
+            siguiente.text = getString(R.string.finalizar_test)
+        }
         siguiente.setOnClickListener {
             verificar_pregunta(preguntas[idx])
         }
@@ -131,17 +132,24 @@ class ResponderTest : AppCompatActivity() {
                 } else {
                     fallos_value += 1
                     solucion.text = errores.joinToString("\n") {
-                        (it.value as EditText).text.toString() + getString(R.string.deberia_ser) + p.opciones[it.index].first.toString()
+                        (it.value as EditText).text.toString() + " " + getString(R.string.deberia_ser) + " " + p.opciones[it.index].first.toString()
                     }
                 }
             }
         }
-
+        // TODO usar un @string
+        siguiente.text = "Comprobar"
         actualizar_aciertos()
-
+        // TODO usar un @string
+        val es_ultimo = (idx + 1) >= preguntas.size
+        if (es_ultimo) {
+            siguiente.text = "Terminar"
+        } else {
+            siguiente.text = "Siguiente"
+        }
         siguiente.setOnClickListener {
             idx += 1
-            if(idx >= preguntas.size) {
+            if(es_ultimo) {
                 SingletonMap["resultado test"] = Pair(aciertos_value, fallos_value)
                 this.finish()
             } else {
@@ -151,8 +159,8 @@ class ResponderTest : AppCompatActivity() {
     }
 
     fun actualizar_aciertos() {
-        aciertos.text = aciertos_value.toString()
-        fallos.text = fallos_value.toString()
-        progreso.text = (aciertos_value + fallos_value).toString() + "/" + preguntas.size.toString()
+        aciertos.text = aciertos_value.toString() + " " + getString(R.string.preguntas)
+        fallos.text = fallos_value.toString() + " " + getString(R.string.preguntas)
+        progreso.text = getString(R.string.progreso) + " " + (aciertos_value + fallos_value).toString() + "/" + preguntas.size.toString() + " " + getString(R.string.preguntas)
     }
 }

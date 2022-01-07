@@ -52,7 +52,13 @@
     <string name="aviso_portapapeles">Código copiado en el portapapeles</string>
     <string name="has_acertado">Has acertado</string>
     <string name="has_fallado">has fallado</string>
-    <string name="correcto">Correcto!</string>
+    <string name="correcto">¡Correcto!</string>
     <string name="deberia_ser">debería ser</string>
     <string name="guardar">Guardar</string>
+    <string name="progreso">Progreso</string>
+    <string name="preguntas">preguntas</string>
+    <string name="aciertos">aciertos</string>
+    <string name="fallos">fallos</string>
+    <string name="siguiente_pregunta">Siguiente</string>
+    <string name="finalizar_test">Finalizar</string>
 </resources>

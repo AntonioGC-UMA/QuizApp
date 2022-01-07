@@ -55,5 +55,11 @@
     <string name="correcto">You are Rigth!</string>
     <string name="deberia_ser">it should be</string>
     <string name="guardar">Save</string>
+    <string name="progreso">Progress</string>
+    <string name="preguntas">questions</string>
+    <string name="aciertos">correct answers</string>
+    <string name="fallos">failures</string>
+    <string name="siguiente_pregunta">Next</string>
+    <string name="finalizar_test">Finish</string>
 
 </resources>
