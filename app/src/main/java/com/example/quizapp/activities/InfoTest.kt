@@ -14,10 +14,11 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlin.properties.Delegates
 
 class InfoTest : AppCompatActivity(), RatingBar.OnRatingBarChangeListener {
     val test = SingletonMap["lastTest"] as DocumentSnapshot
-
+    var valoracion = test.get("valoracion") as Double
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_info_test)
@@ -66,8 +67,9 @@ class InfoTest : AppCompatActivity(), RatingBar.OnRatingBarChangeListener {
     }
 
     override fun onRatingChanged(p0: RatingBar?, p1: Float, p2: Boolean) {
+        val media = (p1 + valoracion)/2
         Firebase.firestore.collection("tests")
-            .document(test.id).update("valoracion", p1).addOnSuccessListener {
+            .document(test.id).update("valoracion", media).addOnSuccessListener {
                 Toast.makeText(this, getString(R.string.test_valorado_exito), Toast.LENGTH_SHORT).show()
             }
     }
