@@ -93,7 +93,7 @@ class ResponderTest : AppCompatActivity() {
                 } else {
                     fallos_value += 1
                     solucion.text = errores.joinToString("\n") {
-                        (it.value as RadioButton).text.toString() + getString(R.string.deberia_ser) + p.opciones[it.index].second.toString()
+                        (it.value as RadioButton).text.toString() + " " +getString(R.string.deberia_ser) + " " + p.opciones[it.index].second.toString()
                     }
                 }
             }
