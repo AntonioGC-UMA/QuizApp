@@ -37,7 +37,6 @@ class ResponderTest : AppCompatActivity() {
 
         preguntas = SingletonMap["lista_preguntas"] as List<CrearTest.Pregunta>
 
-        siguiente.text = getString(R.string.siguiente_pregunta)
         actualizar_aciertos()
         cargar_pregunta(preguntas[idx])
     }
@@ -72,9 +71,7 @@ class ResponderTest : AppCompatActivity() {
                 }
             }
         }
-        if(idx >= preguntas.size){
-            siguiente.text = getString(R.string.finalizar_test)
-        }
+        siguiente.text = getString(R.string.comprobar_pregunta)
         siguiente.setOnClickListener {
             verificar_pregunta(preguntas[idx])
         }
@@ -97,7 +94,7 @@ class ResponderTest : AppCompatActivity() {
                 } else {
                     fallos_value += 1
                     solucion.text = errores.joinToString("\n") {
-                        (it.value as RadioButton).text.toString() + getString(R.string.deberia_ser) + p.opciones[it.index].second.toString()
+                        (it.value as RadioButton).text.toString() + " " +getString(R.string.deberia_ser) + " " + p.opciones[it.index].second.toString()
                     }
                 }
             }
@@ -137,15 +134,13 @@ class ResponderTest : AppCompatActivity() {
                 }
             }
         }
-        // TODO usar un @string
-        siguiente.text = "Comprobar"
+
         actualizar_aciertos()
-        // TODO usar un @string
         val es_ultimo = (idx + 1) >= preguntas.size
         if (es_ultimo) {
-            siguiente.text = "Terminar"
+            siguiente.text = getString(R.string.finalizar_test)
         } else {
-            siguiente.text = "Siguiente"
+            siguiente.text = getString(R.string.siguiente_pregunta)
         }
         siguiente.setOnClickListener {
             idx += 1
