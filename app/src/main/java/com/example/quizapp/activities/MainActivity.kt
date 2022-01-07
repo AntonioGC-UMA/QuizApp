@@ -86,8 +86,6 @@ private lateinit var databaseReference: DatabaseReference
                     .addOnSuccessListener {
                         Toast.makeText(this, getString(R.string.usuario_creado_exito), Toast.LENGTH_SHORT).show()
                         val usuario = hashMapOf(
-                            "foto perfil" to "url de la fotaca",
-                            "logros" to arrayListOf("tonto", "feo"),
                             "mis tests" to arrayListOf<DatabaseReference>(),
                             "tests realizados" to arrayListOf<DatabaseReference>()
                         )
