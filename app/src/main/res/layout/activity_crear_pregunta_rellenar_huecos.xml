@@ -38,7 +38,7 @@
         android:id="@+id/btn_add_respuestas_rellenar_huecos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:text="@string/txt_btn_add_respuesta_rellenar_huecos"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
