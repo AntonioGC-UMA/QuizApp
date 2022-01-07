@@ -130,7 +130,7 @@ class CrearTest : AppCompatActivity() {
                             }
                         )
                     },
-                    "valoracion" to 5
+                    "valoracion" to 5.0
                 )
                 val new_test = if (extras != null) {
                     Firebase.firestore.collection("tests")

@@ -14,11 +14,12 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlin.properties.Delegates
 
 class InfoTest : AppCompatActivity(), RatingBar.OnRatingBarChangeListener {
     val test = SingletonMap["lastTest"] as DocumentSnapshot
-    var valoracion = test.get("valoracion") as Double
+    val valoracion_any = test.get("valoracion")
+
+    var valoracion = if (valoracion_any is Long) {(valoracion_any).toDouble()} else {valoracion_any as Double}
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_info_test)
