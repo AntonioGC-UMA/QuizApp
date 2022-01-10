@@ -32,7 +32,7 @@ class CrearTest : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_crear_test)
 
-
+        //Al pulsar el boton + se abre una nueva actividad para seleccionar el tipo de pregunta
         findViewById<FloatingActionButton>(R.id.addQuestion).setOnClickListener {
             val intent = Intent(this, SeleccionarTipoDePregunta::class.java)
             startActivity(intent)
@@ -40,6 +40,7 @@ class CrearTest : AppCompatActivity() {
 
         val tags = findViewById<MultiAutoCompleteTextView>(R.id.multiAutoCompleteTextView)
 
+        //Lista de etiquetas posibles para un test
         val lista_tags = listOf(
             "entretenimiento",
             "cultura",
@@ -56,7 +57,7 @@ class CrearTest : AppCompatActivity() {
             "marcas",
             "música"
         )
-
+        //La lista se convierte en un objeto de tipo ArrayAdapter y ademas se adapta al objeto creado
         ArrayAdapter(
             this,
             android.R.layout.simple_dropdown_item_1line,
@@ -69,6 +70,8 @@ class CrearTest : AppCompatActivity() {
 
         val extras = intent.extras
         if (extras != null) {
+            //Si se esta editando el test, se debe mostrar la informacion relevante del mismo como
+                // las categorias, el titulo, la descripcion, las categorias y las preguntas que tuviera
             Firebase.firestore.collection("tests")
                 .document(extras.getString("id")!!).get().addOnSuccessListener { test ->
                     tags.setText((test["categorias"] as List<String>).joinToString(", ", postfix = ", "), TextView.BufferType.EDITABLE)
@@ -82,13 +85,15 @@ class CrearTest : AppCompatActivity() {
                     actualizar_recicler_view()
                 }
         } else {
+            //En caso de estar creando un nuevo test, se inicializa la lista de preguntas como vacia
             SingletonMap["lista_preguntas"] = mutableListOf<Pregunta>()
         }
-
+        //Si el usuario cancela la creacion del test, se cierra la actividad actual
         findViewById<Button>(R.id.cancelar).setOnClickListener {
             this.finish()
         }
 
+        //Codigo necesario para mostrar un AlertDialog
         val dialogClickListener =
             DialogInterface.OnClickListener { dialog, which ->
                 when (which) {
