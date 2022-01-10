@@ -104,6 +104,12 @@ class CrearTest : AppCompatActivity() {
 
         val builder = AlertDialog.Builder(this)
 
+        //Al pulsar sobre el boton crear test se comprueba que este cumpla los requisitos minimos
+        //para ser creado: tener un titulo, una descripcion, al menos una categoria y al menos 3
+        //preguntas. En caso de no cumplir alguno de estos requisitos, se muestra el correspondiente
+        //alertDialog informando del incumplimiento. Una vez se satisfacen los requisitos, se crea el
+        //test y se inserta un nuevo test en la BD si se esta creando o se modifica el actual si se
+        //estaba editando
         findViewById<Button>(R.id.crear).setOnClickListener {
             val titulo = findViewById<EditText>(R.id.titulo).text
             val descripcion = findViewById<EditText>(R.id.descripcion).text
@@ -137,6 +143,8 @@ class CrearTest : AppCompatActivity() {
                     },
                     "valoracion" to 5.0
                 )
+                //En caso de estar editando el test (extras es diferente de null), se obtiene de la
+                //BD dado su id y en otro caso se inserta el nuevo test en la BD
                 val new_test = if (extras != null) {
                     Firebase.firestore.collection("tests")
                         .document(extras.getString("id")!!)
@@ -156,7 +164,8 @@ class CrearTest : AppCompatActivity() {
                     .addOnFailureListener {
                         builder.setMessage(getString(R.string.test_creado_fallo) + it.message).setPositiveButton("OK", dialogClickListener).show()
                     }
-
+                //Una vez insertado o modificado el test en la BD, este se añade a la lista de tests
+                //de un usuario. En caso de fallo, se muestra un mensaje indicando que ha fallado
                 val doc_id = FirebaseAuth.getInstance().currentUser?.uid.orEmpty()
                 val assign_to_user = Firebase.firestore.collection("usuarios").document(doc_id)
                 assign_to_user.update("mis tests", FieldValue.arrayUnion(new_test))
@@ -170,6 +179,7 @@ class CrearTest : AppCompatActivity() {
         }
     }
 
+    //Funcion para actualizar el recycler view cada vez que se añade una nueva pregunta al test
     fun actualizar_recicler_view() {
         val recyclerView = findViewById<RecyclerView>(R.id.listaPreguntas)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -190,13 +200,14 @@ class CrearTest : AppCompatActivity() {
         }
 
         override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-            // Create a new view, which defines the UI of the list item
             val view = LayoutInflater.from(viewGroup.context)
                 .inflate(R.layout.preview_pregunta, viewGroup, false)
-
             return ViewHolder(view)
         }
 
+        //Cuando se muestran las preguntas del test que se esta creando, se muestran el tipo y el enunciado
+        //de la pregunta. Para cada una de las preguntas se ejecuta la siguiente funcion. Tambien es posible
+        //eliminar las preguntas del test si se pulsa el boton X y se refresca el recycler view
         override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
             var tipoTraducido = ""
             if(dataSet[position].tipo.equals("rellenar huecos")){
@@ -213,7 +224,9 @@ class CrearTest : AppCompatActivity() {
                 actualizar_recicler_view()
             }
             viewHolder.view.findViewById<LinearLayout>(R.id.layout_pregunta).setOnClickListener {
-
+                //Al pulsar sobre alguna de las preguntas es posible editarla. Segun el tipo de pregunta
+                //se abrira la actividad correspondiente, pasando el indice de la pregunta a la nueva
+                //actividad.
                 val intent = when (dataSet[position].tipo) {
                     "seleccion" -> Intent(
                         viewHolder.enunciado.context,

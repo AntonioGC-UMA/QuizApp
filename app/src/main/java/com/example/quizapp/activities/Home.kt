@@ -16,7 +16,9 @@ class Home : AppCompatActivity() {
 
     private var toolbar: ActionBar? = null
     lateinit var bottomNavigationView: BottomNavigationView
-
+    //Al crear la actividad home, se enlaza la barra de navegacion inferior con los distintos fragmentos
+    //Por defecto, se muestra el fragmento AllTests y se modifica el titulo de la toolbar segun se
+    //muestre un fragmento u otro
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -25,10 +27,11 @@ class Home : AppCompatActivity() {
             findViewById<View>(R.id.homeMenuNavigationView) as BottomNavigationView
         bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener)
         toolbar?.title = "QuizApp"
-
         loadFragment(AllTests())
     }
 
+    //Dependendiendo del elemento seleccionado de la barra de navegacion inferior se muestra un fragmento
+    //u otro. Para mostrar el fragmento se recurre a la funcion loadFragment, que se describe mas abajo
     private val navigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
             val fragment: Fragment
@@ -56,6 +59,9 @@ class Home : AppCompatActivity() {
             false
         }
 
+    //Dado un fragmento, cuando esta funcion es invocada se comienza una nueva transaccion donde se
+    //reemplaza el contenido del frame layout por el del fragmento pasado como parametro y se
+    //hace commit de la transaccion, esto es, que se pone en cola dicha peticion hasta ser atendida
     private fun loadFragment(fragment: Fragment) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frame_layout, fragment)

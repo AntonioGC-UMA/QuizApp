@@ -26,7 +26,7 @@ class ResponderTest : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_responder_test)
-
+        //Localizacion de los campos de texto y elementos graficos cuyo texto habra que modificar
         aciertos = findViewById(R.id.texto_aciertos)
         fallos = findViewById(R.id.texto_fallos)
         progreso = findViewById(R.id.texto_progreso)
@@ -35,17 +35,27 @@ class ResponderTest : AppCompatActivity() {
         siguiente = findViewById(R.id.boton_siguiente)
         opciones = findViewById(R.id.lista_opciones)
 
+        //Se obtiene la lista de preguntas
         preguntas = SingletonMap["lista_preguntas"] as List<CrearTest.Pregunta>
 
+        //Se actualizan los aciertos(inicialmente 0 al cargar la actividad) y se carga la primera
+        //pregunta del test
         actualizar_aciertos()
         cargar_pregunta(preguntas[idx])
     }
 
     fun cargar_pregunta(p: CrearTest.Pregunta) {
+        //Se eliminan las opciones que hubieran de preguntas anteriores, se elimina la solucion y
+        //se muestra el enunciado
         opciones.removeAllViews()
         solucion.text = ""
         enunciado.text = p.enunciado
 
+        //Dependiendo del tipo de pregunta, se deberan crear los elementos graficos necesarios para
+        //mostrar las opciones y huecos a rellenar. Si es una pregunta de seleccion, se crean los
+        //radio buttons necesarios, si es una pregunta de respuesta multiple, se crean tantos checkboxes
+        //como opciones tenga la pregunta y si es una pregunta de rellenar huecos, se crean los EditText
+        //necesarios para responder
         when (p.tipo) {
             "seleccion" -> {
                 val rg = RadioGroup(this)
@@ -71,6 +81,8 @@ class ResponderTest : AppCompatActivity() {
                 }
             }
         }
+        //Se modifica el texto del boton siguiente para comprobar la respuesta y al pulsar dicho
+        //boton se corrige la pregunta
         siguiente.text = getString(R.string.comprobar_pregunta)
         siguiente.setOnClickListener {
             verificar_pregunta(preguntas[idx])
@@ -78,6 +90,19 @@ class ResponderTest : AppCompatActivity() {
     }
 
     fun verificar_pregunta(p: CrearTest.Pregunta) {
+        //Nuevamente, dependiendo del tipo de pregunta, se comprueba que el usuario ha marcado los
+        //campos correctos.
+        // En caso de preguntas de seleccion, se comprueba que las opciones marcadas
+        //sean las mismas que estaban predefinidas en la pregunta. En caso de exito, se suma un acierto
+        //y se muestra un mensaje de confirmacion y en caso de fallo, ademas de sumar un error mas, se
+        //muestra un mensaje con la/s opcion/es correcta/s.
+        //Para las preguntas de multiple respuesta, se comprueba que los checkboxes marcados por el usuario
+        //coinciden con los asignados como ciertos. Si coincide, se muestra un mensaje de confirmacion y se aumentan
+        //los aciertos y en caso de error, se aumenta en uno el numero de fallos y se muestra la respuesta correcta.
+        //Para las preguntas de rellenar huecos, se comprueba que campos son diferentes a las respuestas que deberian
+        //ser correctas. Si todos los campos coinciden, se incrementa el numero de aciertos y se muestra un mensaje
+        //de confirmacion y si la respuesta introducida era erronea, se muestra un mensaje con la respuesta correcta y se
+        //incrementa en uno el numero de fallos.
         when (p.tipo) {
             "seleccion" -> {
                 val errores = opciones.findViewById<RadioGroup>(R.id.radio_group).children
@@ -135,13 +160,18 @@ class ResponderTest : AppCompatActivity() {
             }
         }
 
+        //Tras responder una pregunta, se actualiza el progreso del usuario en el test
         actualizar_aciertos()
+        //Si es la ultima pregunta por responder, habra que finalizar el test, en cambio, si aun hay
+        //mas preguntas, se debera pasar a la siguiente
         val es_ultimo = (idx + 1) >= preguntas.size
         if (es_ultimo) {
             siguiente.text = getString(R.string.finalizar_test)
         } else {
             siguiente.text = getString(R.string.siguiente_pregunta)
         }
+        //Cuando se pulsa el boton de siguiente o finalizar, si es la ultima pregunta, se calculan los
+        //aciertos y fallos cometidos y si aun hay preguntas por responder se carga la pregunta siguiente
         siguiente.setOnClickListener {
             idx += 1
             if(es_ultimo) {
@@ -152,7 +182,8 @@ class ResponderTest : AppCompatActivity() {
             }
         }
     }
-
+    //Actualizacion del progreso del usuario en el test asi como del numero de aciertos y fallos tras
+    //responder una pregunta
     fun actualizar_aciertos() {
         aciertos.text = aciertos_value.toString() + " " + getString(R.string.preguntas_acertadas)
         fallos.text = fallos_value.toString() + " " + getString(R.string.preguntas_falladas)

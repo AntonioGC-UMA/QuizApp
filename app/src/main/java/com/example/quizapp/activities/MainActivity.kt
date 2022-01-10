@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
 private lateinit var databaseReference: DatabaseReference
     var emailText : EditText? = null
     var passwordText : EditText? = null
+    //Codigo necesario para mostrar un AlertDialog
     val dialogClickListener =
         DialogInterface.OnClickListener { dialog, which ->
             when (which) {
@@ -30,7 +31,9 @@ private lateinit var databaseReference: DatabaseReference
                 }
             }
         }
-
+    //Comprueba los datos introducidos por el usuario. Si no se rellena el email o la contraseña no cumple
+    //los requisitos se muestra el correspondiente AlertDialog informando de dicho error. En otro caso
+    //se obtienen el email y contraseña introducidos
     fun readData() : Pair<String, String>? {
         val email = emailText?.text.toString().trim()
         val password = passwordText?.text.toString().trim()
@@ -62,7 +65,12 @@ private lateinit var databaseReference: DatabaseReference
 
         SingletonMap["BD_AUTH"] = auth
         SingletonMap["BD"] = bd
-
+        //Tras localizar los campos de texto de nuestro interes y obtener las referencias a la BD,
+        //si el usuario pulsa el boton de login, se lee lo que el usuario ha introducido en los campos
+        //de texto, llamando a la funcion readData y en caso de que la autenticacion con email y contraseña
+        //sea exitosa, se muestra un mensaje de confirmacion y se abre la actividad Home, donde el usuario
+        //tiene acceso a sus tests, todos los tests y los tests realizados. En caso de que el inicio de sesion
+        //falle, se muestra un AlertDialog dando detalles acerca del fallo en la autenticacion
         findViewById<Button>(R.id.login).setOnClickListener {
             readData()?.let { (email, password) ->
                 auth.signInWithEmailAndPassword(email, password)
@@ -79,7 +87,11 @@ private lateinit var databaseReference: DatabaseReference
                 }
 
         }
-
+        //si el usuario pulsa el boton de registro, se lee lo que el usuario ha introducido en los campos
+        //de texto, llamando a la funcion readData y en caso de que la creacion de un usuario con el email y contraseña
+        //proporcionados sea exitosa, se muestra un mensaje de confirmacion, se inicializan sus listas de tests como listas
+        // vacias y se crea el nuevo usuario. En caso de fallo, se muestra un alertDialog informando sobre el error.
+        // Posteriormente se abre la actividad Home
         findViewById<Button>(R.id.registrar).setOnClickListener {
             readData()?.let { (email, password) ->
                 auth.createUserWithEmailAndPassword(email, password)

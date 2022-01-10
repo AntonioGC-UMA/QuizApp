@@ -10,7 +10,8 @@ class SeleccionarTipoDePregunta : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_seleccionar_tipo_de_pregunta)
-
+        //Segun el boton seleccionado se abre una actividad u otra para crear un tipo de pregunta
+        // determinado.
         findViewById<Button>(R.id.seleccion).setOnClickListener { view ->
             val intent = Intent(this, CrearPreguntaSeleccion::class.java)
             startActivity(intent)
