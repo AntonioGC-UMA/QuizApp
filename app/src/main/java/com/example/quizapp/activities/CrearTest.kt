@@ -193,7 +193,15 @@ class CrearTest : AppCompatActivity() {
         }
 
         override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-            viewHolder.tipo.text = dataSet[position].tipo
+            var tipoTraducido = ""
+            if(dataSet[position].tipo.equals("rellenar huecos")){
+                tipoTraducido = getString(R.string.tipo_rellenar)
+            } else if (dataSet[position].tipo.equals("seleccion")){
+                tipoTraducido = getString(R.string.tipo_seleccion)
+            } else if (dataSet[position].tipo.equals("multiple")){
+                tipoTraducido = getString(R.string.tipo_multiple)
+            }
+            viewHolder.tipo.text = tipoTraducido
             viewHolder.enunciado.text = dataSet[position].enunciado
             viewHolder.view.findViewById<Button>(R.id.boton_x).setOnClickListener {
                 (SingletonMap["lista_preguntas"] as MutableList<Pregunta>).removeAt(position)

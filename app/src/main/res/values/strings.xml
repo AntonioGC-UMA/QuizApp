@@ -69,4 +69,6 @@
     <string name="valorar">Valora el test</string>
     <string name="num_preguntas">Número de preguntas:</string>
     <string name="comprobar_pregunta">Comprobar respuesta</string>
+    <string name="preguntas_acertadas">preguntas acertadas</string>
+    <string name="preguntas_falladas">preguntas falladas</string>
 </resources>

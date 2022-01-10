@@ -154,8 +154,8 @@ class ResponderTest : AppCompatActivity() {
     }
 
     fun actualizar_aciertos() {
-        aciertos.text = aciertos_value.toString() + " " + getString(R.string.preguntas)
-        fallos.text = fallos_value.toString() + " " + getString(R.string.preguntas)
+        aciertos.text = aciertos_value.toString() + " " + getString(R.string.preguntas_acertadas)
+        fallos.text = fallos_value.toString() + " " + getString(R.string.preguntas_falladas)
         progreso.text = getString(R.string.progreso) + " " + (aciertos_value + fallos_value).toString() + "/" + preguntas.size.toString() + " " + getString(R.string.preguntas)
     }
 }
