@@ -73,7 +73,7 @@ class InfoTest : AppCompatActivity(), RatingBar.OnRatingBarChangeListener {
         if (resultado != null) {
             SingletonMap.remove("resultado test")
             val (aciertos, fallos) = resultado as Pair<Int, Int>
-            calificacion.text = getString(R.string.has_acertado) + " " +  aciertos + getString(R.string.preguntas) + ", " + getString(R.string.has_fallado) + " " + fallos + " " + getString(R.string.preguntas)
+            calificacion.text = getString(R.string.has_acertado) + " " +  aciertos + " " + getString(R.string.preguntas) + ", " + getString(R.string.has_fallado) + " " + fallos + " " + getString(R.string.preguntas)
             Firebase.firestore.collection("usuarios").document(FirebaseAuth.getInstance().uid!!).update("tests realizados", FieldValue.arrayUnion(test.reference))
         }
     }
