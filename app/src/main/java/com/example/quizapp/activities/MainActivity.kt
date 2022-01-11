@@ -37,7 +37,7 @@ private lateinit var databaseReference: DatabaseReference
     fun readData() : Pair<String, String>? {
         val email = emailText?.text.toString().trim()
         val password = passwordText?.text.toString().trim()
-        val builder = AlertDialog.Builder(applicationContext)
+        val builder = AlertDialog.Builder(this)
 
         if (email.isEmpty()) {
             builder.setMessage(getString(R.string.email_no_vacio)).setPositiveButton("OK", dialogClickListener).show()
@@ -61,7 +61,7 @@ private lateinit var databaseReference: DatabaseReference
 
         val auth = FirebaseAuth.getInstance()
         val bd = Firebase.firestore
-        val builder = AlertDialog.Builder(applicationContext)
+        val builder = AlertDialog.Builder(this)
 
         SingletonMap["BD_AUTH"] = auth
         SingletonMap["BD"] = bd
